@@ -1,66 +1,73 @@
 package com.ecommerce.product.controller;
 
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.R;
-import com.ecommerce.product.entity.CategoryEntity;
+import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.page.PageData;
+import com.ecommerce.common.utils.Result;
+import com.ecommerce.product.dto.CategoryDto;
 import com.ecommerce.product.service.CategoryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
-/**
- * 商品三级分类
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
 @RestController
 @RequestMapping("product/category")
+@Api(tags="product category, up to three-level categorization")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/list/tree")  // url: http://localhost:9999/product/category/list/tree
-    public R list(){
-        return R.ok().put("data", categoryService.listWithTree());
+    @GetMapping("tree")
+    @ApiOperation("get category tree")
+    public Result tree(){
+        return new Result().ok(categoryService.getTree());
     }
 
     @GetMapping("page")
-        public R page(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    @ApiOperation("pagination")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
+        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
+    })
+    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<CategoryDto> page = categoryService.page(params);
 
-        return R.ok().put("page", page);
+        return new Result().ok(page.getTotal(), page.getList());
     }
 
-    @GetMapping("{catId}")
-        public R get(@PathVariable("catId") Long catId){
-        CategoryEntity category = categoryService.getById(catId);
-
-        return R.ok().put("category", category);
+    @GetMapping("{id}")
+    @ApiOperation("get")
+    public Result get(@PathVariable("id") Long id){
+        CategoryDto data = categoryService.get(id);
+        return new Result().ok(data);
     }
 
     @PostMapping
-        public R save(@RequestBody CategoryEntity category){
-
-        categoryService.save(category);
-
-        return R.ok();
+    @ApiOperation("save")
+    public Result save(@RequestBody CategoryDto dto){
+        categoryService.save(dto);
+        return new Result();
     }
 
     @PutMapping
-        public R update(@RequestBody CategoryEntity category){
-            categoryService.updateById(category);
-
-        return R.ok();
+    @ApiOperation("update")
+    public Result update(@RequestBody CategoryDto dto){
+        categoryService.update(dto);
+        return new Result();
     }
 
     @DeleteMapping
-        public R delete(@RequestBody Long[] catIds){
-            categoryService.removeByIds(Arrays.asList(catIds));
-
-        return R.ok();
+    @ApiOperation("delete")
+    public Result delete(@RequestBody Long[] ids){
+        categoryService.delete(ids);
+        return new Result();
     }
 }

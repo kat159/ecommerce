@@ -1,29 +1,28 @@
 package com.ecommerce.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.Query;
+import com.ecommerce.common.service.impl.CrudServiceImpl;
 import com.ecommerce.order.dao.OrderItemDao;
+import com.ecommerce.order.dto.OrderItemDto;
 import com.ecommerce.order.entity.OrderItemEntity;
 import com.ecommerce.order.service.OrderItemService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("orderItemService")
-public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEntity> implements OrderItemService {
+@Service
+public class OrderItemServiceImpl extends CrudServiceImpl<OrderItemDao, OrderItemEntity, OrderItemDto> implements OrderItemService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<OrderItemEntity> page = this.page(
-                new Query<OrderItemEntity>().getPage(params),
-                new QueryWrapper<OrderItemEntity>()
-        );
+    public QueryWrapper<OrderItemEntity> getWrapper(Map<String, Object> params){
+        String id = (String)params.get("id");
 
-        return new PageUtils(page);
+        QueryWrapper<OrderItemEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+
+        return wrapper;
     }
 
 }

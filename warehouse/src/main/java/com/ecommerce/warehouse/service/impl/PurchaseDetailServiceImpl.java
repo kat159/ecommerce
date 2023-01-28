@@ -1,29 +1,28 @@
 package com.ecommerce.warehouse.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.Query;
+import com.ecommerce.common.service.impl.CrudServiceImpl;
 import com.ecommerce.warehouse.dao.PurchaseDetailDao;
+import com.ecommerce.warehouse.dto.PurchaseDetailDto;
 import com.ecommerce.warehouse.entity.PurchaseDetailEntity;
 import com.ecommerce.warehouse.service.PurchaseDetailService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("purchaseDetailService")
-public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, PurchaseDetailEntity> implements PurchaseDetailService {
+@Service
+public class PurchaseDetailServiceImpl extends CrudServiceImpl<PurchaseDetailDao, PurchaseDetailEntity, PurchaseDetailDto> implements PurchaseDetailService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<PurchaseDetailEntity> page = this.page(
-                new Query<PurchaseDetailEntity>().getPage(params),
-                new QueryWrapper<PurchaseDetailEntity>()
-        );
+    public QueryWrapper<PurchaseDetailEntity> getWrapper(Map<String, Object> params){
+        String id = (String)params.get("id");
 
-        return new PageUtils(page);
+        QueryWrapper<PurchaseDetailEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+
+        return wrapper;
     }
 
 }

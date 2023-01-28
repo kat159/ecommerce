@@ -2,15 +2,24 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://192.168.128.129:33061/gulimall_pms
+    url: jdbc:mysql://localhost:3306/ecommerce_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: ecommerce-product-service
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
-  port: 9999
+  port: 10000

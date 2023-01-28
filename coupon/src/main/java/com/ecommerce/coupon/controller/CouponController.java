@@ -1,82 +1,67 @@
 package com.ecommerce.coupon.controller;
 
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.R;
-import com.ecommerce.coupon.entity.CouponEntity;
+import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.page.PageData;
+import com.ecommerce.common.utils.Result;
+import com.ecommerce.coupon.dto.CouponDto;
 import com.ecommerce.coupon.service.CouponService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
-/**
- * 优惠券信息
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
-@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 @RestController
 @RequestMapping("coupon/coupon")
+@Api(tags="Information of coupon of different types")
 public class CouponController {
     @Autowired
     private CouponService couponService;
 
-    @Value("${coupon.user.name}")
-    private String name;
-    @Value("${coupon.user.age}")
-    private Integer age;
-    @GetMapping("test") // test url: http://localhost:7000/coupon/coupon/test
-    public R test(){
-        return R.ok().put("name", name).put("age", age);
-    }
-
-    // test url: http://localhost:7000/coupon/coupon/member/list
-    @GetMapping("/member/list")
-    public R memberCoupons(){
-        CouponEntity couponEntity = new CouponEntity();
-        couponEntity.setCouponName("满100减10");
-        return R.ok().put("coupons", Arrays.asList(couponEntity));
-    }
-
     @GetMapping("page")
-        public R page(@RequestParam Map<String, Object> params){
-        PageUtils page = couponService.queryPage(params);
+    @ApiOperation("pagination")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
+        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
+    })
+    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<CouponDto> page = couponService.page(params);
 
-        return R.ok().put("page", page);
+        return new Result().ok(page.getTotal(), page.getList());
     }
 
     @GetMapping("{id}")
-        public R get(@PathVariable("id") Long id){
-        CouponEntity coupon = couponService.getById(id);
-
-        return R.ok().put("coupon", coupon);
+    @ApiOperation("get")
+    public Result get(@PathVariable("id") Long id){
+        CouponDto data = couponService.get(id);
+        return new Result().ok(data);
     }
 
     @PostMapping
-        public R save(@RequestBody CouponEntity coupon){
-
-        couponService.save(coupon);
-
-        return R.ok();
+    @ApiOperation("save")
+    public Result save(@RequestBody CouponDto dto){
+        couponService.save(dto);
+        return new Result();
     }
 
     @PutMapping
-        public R update(@RequestBody CouponEntity coupon){
-            couponService.updateById(coupon);
-
-        return R.ok();
+    @ApiOperation("update")
+    public Result update(@RequestBody CouponDto dto){
+        couponService.update(dto);
+        return new Result();
     }
 
     @DeleteMapping
-        public R delete(@RequestBody Long[] ids){
-            couponService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    @ApiOperation("delete")
+    public Result delete(@RequestBody Long[] ids){
+        couponService.delete(ids);
+        return new Result();
     }
 }

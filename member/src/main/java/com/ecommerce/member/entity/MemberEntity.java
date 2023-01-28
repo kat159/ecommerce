@@ -4,91 +4,83 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 会员
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
 @Data
-@TableName("ums_member")
-public class MemberEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+@TableName("member")
+public class MemberEntity {
 
-			/**
-		 * id
-		 */
-				@TableId
-			private Long id;
-			/**
-		 * 会员等级id
-		 */
-			private Long levelId;
-			/**
-		 * 用户名
-		 */
-			private String username;
-			/**
-		 * 密码
-		 */
-			private String password;
-			/**
-		 * 昵称
-		 */
-			private String nickname;
-			/**
-		 * 手机号码
-		 */
-			private String mobile;
-			/**
-		 * 邮箱
-		 */
-			private String email;
-			/**
-		 * 头像
-		 */
-			private String header;
-			/**
-		 * 性别
-		 */
-			private Integer gender;
-			/**
-		 * 生日
-		 */
-			private Date birth;
-			/**
-		 * 所在城市
-		 */
-			private String city;
-			/**
-		 * 职业
-		 */
-			private String job;
-			/**
-		 * 个性签名
-		 */
-			private String sign;
-			/**
-		 * 用户来源
-		 */
-			private Integer sourceType;
-			/**
-		 * 积分
-		 */
-			private Integer integration;
-			/**
-		 * 成长值
-		 */
-			private Integer growth;
-			/**
-		 * 启用状态
-		 */
-			private Integer status;
-			/**
-		 * 注册时间
-		 */
-			private Date createTime;
-	}
+    /**
+     * ID
+     */
+		@TableId
+		private Long id;
+    /**
+     * Member level ID
+     */
+		private Long levelId;
+    /**
+     * Username
+     */
+		private String username;
+    /**
+     * Password
+     */
+		private String password;
+    /**
+     * Nickname
+     */
+		private String nickname;
+    /**
+     * tele number
+     */
+		private String tele;
+    /**
+     * Email
+     */
+		private String email;
+    /**
+     * Avatar
+     */
+		private String avatar;
+    /**
+     * Gender
+     */
+		private Integer gender;
+    /**
+     * Birthday
+     */
+		private Date birth;
+    /**
+     * City
+     */
+		private String city;
+    /**
+     * Occupation
+     */
+		private String job;
+    /**
+     * bio
+     */
+		private String bio;
+    /**
+     * How the user know us
+     */
+		private Integer referSource;
+    /**
+     * membership_point
+     */
+		private Integer membershipPoint;
+    /**
+     * reward_point
+     */
+		private Integer rewardPoint;
+    /**
+     * Status
+     */
+		private Integer status;
+    /**
+     * Registration date
+     */
+		private Date registrationDate;
+}

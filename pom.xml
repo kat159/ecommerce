@@ -23,7 +23,6 @@
         <module>warehouse</module>
         <module>product</module>
         <module>member</module>
-        <module>renren-security</module>
         <module>common</module>
     </modules>
 

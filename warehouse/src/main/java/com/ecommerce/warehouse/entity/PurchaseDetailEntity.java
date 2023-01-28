@@ -4,47 +4,39 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * 
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-19
- */
 @Data
-@TableName("wms_purchase_detail")
-public class PurchaseDetailEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+@TableName("purchase_detail")
+public class PurchaseDetailEntity {
 
-			/**
-		 * 
-		 */
-				@TableId
-			private Long id;
-			/**
-		 * 采购单id
-		 */
-			private Long purchaseId;
-			/**
-		 * 采购商品id
-		 */
-			private Long skuId;
-			/**
-		 * 采购数量
-		 */
-			private Integer skuNum;
-			/**
-		 * 采购金额
-		 */
-			private BigDecimal skuPrice;
-			/**
-		 * 仓库id
-		 */
-			private Long wareId;
-			/**
-		 * 状态[0新建，1已分配，2正在采购，3已完成，4采购失败]
-		 */
-			private Integer status;
-	}
+    /**
+     * 
+     */
+		@TableId
+		private Long id;
+    /**
+     * Purchase ID
+     */
+		private Long purchaseId;
+    /**
+     * ID of the purchased item
+     */
+		private Long skuId;
+    /**
+     * Quantity purchased
+     */
+		private Integer skuNum;
+    /**
+     * Purchase amount
+     */
+		private BigDecimal skuPrice;
+    /**
+     * Warehouse ID
+     */
+		private Long warehouseId;
+    /**
+     * Status [0: new, 1: assigned, 2: in progress, 3: completed, 4: purchase failed]
+     */
+		private Integer status;
+}

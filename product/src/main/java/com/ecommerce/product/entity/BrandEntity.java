@@ -4,46 +4,37 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
-
-/**
- * 品牌
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
 @Data
-@TableName("pms_brand")
-public class BrandEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+@TableName("brand")
+public class BrandEntity {
 
-			/**
-		 * 品牌id
-		 */
-				@TableId
-			private Long brandId;
-			/**
-		 * 品牌名
-		 */
-			private String name;
-			/**
-		 * 品牌logo地址
-		 */
-			private String logo;
-			/**
-		 * 介绍
-		 */
-			private String descript;
-			/**
-		 * 显示状态[0-不显示；1-显示]
-		 */
-			private Integer showStatus;
-			/**
-		 * 检索首字母
-		 */
-			private String firstLetter;
-			/**
-		 * 排序
-		 */
-			private Integer sort;
-	}
+    /**
+     * brand ID
+     */
+		@TableId
+		private Long id;
+    /**
+     * brand name
+     */
+		private String name;
+    /**
+     * brand logo address
+     */
+		private String logo;
+    /**
+     * introduction
+     */
+		private String description;
+    /**
+     * for soft delete[0-deleted; 1-non-deleted]
+     */
+		private Integer nonDeleted;
+    /**
+     * search first letter
+     */
+		private String firstLetter;
+    /**
+     * sort order
+     */
+		private Integer sort;
+}

@@ -1,61 +1,67 @@
 package com.ecommerce.product.controller;
 
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.R;
-import com.ecommerce.product.entity.BrandEntity;
+import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.page.PageData;
+import com.ecommerce.common.utils.Result;
+import com.ecommerce.product.dto.BrandDto;
 import com.ecommerce.product.service.BrandService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
-/**
- * 品牌
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
 @RestController
 @RequestMapping("product/brand")
+@Api(tags="brand")
 public class BrandController {
     @Autowired
     private BrandService brandService;
 
     @GetMapping("page")
-        public R page(@RequestParam Map<String, Object> params){
-        PageUtils page = brandService.queryPage(params);
+    @ApiOperation("pagination")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
+        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
+    })
+    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<BrandDto> page = brandService.page(params);
 
-        return R.ok().put("page", page);
+        return new Result().ok(page.getTotal(), page.getList());
     }
 
-    @GetMapping("{brandId}")
-        public R get(@PathVariable("brandId") Long brandId){
-        BrandEntity brand = brandService.getById(brandId);
-
-        return R.ok().put("brand", brand);
+    @GetMapping("{id}")
+    @ApiOperation("get")
+    public Result get(@PathVariable("id") Long id){
+        BrandDto data = brandService.get(id);
+        return new Result().ok(data);
     }
 
     @PostMapping
-        public R save(@RequestBody BrandEntity brand){
-
-        brandService.save(brand);
-
-        return R.ok();
+    @ApiOperation("save")
+    public Result save(@RequestBody BrandDto dto){
+        brandService.save(dto);
+        return new Result();
     }
 
     @PutMapping
-        public R update(@RequestBody BrandEntity brand){
-            brandService.updateById(brand);
-
-        return R.ok();
+    @ApiOperation("update")
+    public Result update(@RequestBody BrandDto dto){
+        brandService.update(dto);
+        return new Result();
     }
 
     @DeleteMapping
-        public R delete(@RequestBody Long[] brandIds){
-            brandService.removeByIds(Arrays.asList(brandIds));
-
-        return R.ok();
+    @ApiOperation("delete")
+    public Result delete(@RequestBody Long[] ids){
+        brandService.delete(ids);
+        return new Result();
     }
 }

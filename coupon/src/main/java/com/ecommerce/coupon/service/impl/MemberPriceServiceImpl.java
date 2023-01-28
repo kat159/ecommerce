@@ -1,29 +1,28 @@
 package com.ecommerce.coupon.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.Query;
+import com.ecommerce.common.service.impl.CrudServiceImpl;
 import com.ecommerce.coupon.dao.MemberPriceDao;
+import com.ecommerce.coupon.dto.MemberPriceDto;
 import com.ecommerce.coupon.entity.MemberPriceEntity;
 import com.ecommerce.coupon.service.MemberPriceService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("memberPriceService")
-public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceDao, MemberPriceEntity> implements MemberPriceService {
+@Service
+public class MemberPriceServiceImpl extends CrudServiceImpl<MemberPriceDao, MemberPriceEntity, MemberPriceDto> implements MemberPriceService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<MemberPriceEntity> page = this.page(
-                new Query<MemberPriceEntity>().getPage(params),
-                new QueryWrapper<MemberPriceEntity>()
-        );
+    public QueryWrapper<MemberPriceEntity> getWrapper(Map<String, Object> params){
+        String id = (String)params.get("id");
 
-        return new PageUtils(page);
+        QueryWrapper<MemberPriceEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+
+        return wrapper;
     }
 
 }

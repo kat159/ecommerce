@@ -4,60 +4,52 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * 采购信息
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-19
- */
 @Data
-@TableName("wms_purchase")
-public class PurchaseEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+@TableName("purchase")
+public class PurchaseEntity {
 
-			/**
-		 * 采购单id
-		 */
-				@TableId
-			private Long id;
-			/**
-		 * 采购人id
-		 */
-			private Long assigneeId;
-			/**
-		 * 采购人名
-		 */
-			private String assigneeName;
-			/**
-		 * 联系方式
-		 */
-			private String phone;
-			/**
-		 * 优先级
-		 */
-			private Integer priority;
-			/**
-		 * 状态
-		 */
-			private Integer status;
-			/**
-		 * 仓库id
-		 */
-			private Long wareId;
-			/**
-		 * 总金额
-		 */
-			private BigDecimal amount;
-			/**
-		 * 创建日期
-		 */
-			private Date createTime;
-			/**
-		 * 更新日期
-		 */
-			private Date updateTime;
-	}
+    /**
+     * Purchase ID
+     */
+		@TableId
+		private Long id;
+    /**
+     * ID of the person making the purchase
+     */
+		private Long assigneeId;
+    /**
+     * Name of the person making the purchase
+     */
+		private String assigneeName;
+    /**
+     * tele number of the person making the purchase
+     */
+		private String assigneeTele;
+    /**
+     * Priority
+     */
+		private Integer priority;
+    /**
+     * Status
+     */
+		private Integer status;
+    /**
+     * Warehouse ID
+     */
+		private Long warehouseId;
+    /**
+     * Total amount
+     */
+		private BigDecimal amount;
+    /**
+     * Date created
+     */
+		private Date createDate;
+    /**
+     * Date updated
+     */
+		private Date updateDate;
+}

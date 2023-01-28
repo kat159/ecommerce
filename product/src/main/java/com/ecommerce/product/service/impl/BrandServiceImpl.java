@@ -1,29 +1,28 @@
 package com.ecommerce.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.Query;
+import com.ecommerce.common.service.impl.CrudServiceImpl;
 import com.ecommerce.product.dao.BrandDao;
+import com.ecommerce.product.dto.BrandDto;
 import com.ecommerce.product.entity.BrandEntity;
 import com.ecommerce.product.service.BrandService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("brandService")
-public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+@Service
+public class BrandServiceImpl extends CrudServiceImpl<BrandDao, BrandEntity, BrandDto> implements BrandService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<BrandEntity> page = this.page(
-                new Query<BrandEntity>().getPage(params),
-                new QueryWrapper<BrandEntity>()
-        );
+    public QueryWrapper<BrandEntity> getWrapper(Map<String, Object> params){
+        String id = (String)params.get("id");
 
-        return new PageUtils(page);
+        QueryWrapper<BrandEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+
+        return wrapper;
     }
 
 }

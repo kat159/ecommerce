@@ -1,61 +1,67 @@
 package com.ecommerce.order.controller;
 
-import com.ecommerce.common.utils.PageUtils;
-import com.ecommerce.common.utils.R;
-import com.ecommerce.order.entity.OrderItemEntity;
+import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.page.PageData;
+import com.ecommerce.common.utils.Result;
+import com.ecommerce.order.dto.OrderItemDto;
 import com.ecommerce.order.service.OrderItemService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
-/**
- * 订单项信息
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
 @RestController
 @RequestMapping("order/orderitem")
+@Api(tags="order item information")
 public class OrderItemController {
     @Autowired
     private OrderItemService orderItemService;
 
     @GetMapping("page")
-        public R page(@RequestParam Map<String, Object> params){
-        PageUtils page = orderItemService.queryPage(params);
+    @ApiOperation("pagination")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
+        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
+        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
+    })
+    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<OrderItemDto> page = orderItemService.page(params);
 
-        return R.ok().put("page", page);
+        return new Result().ok(page.getTotal(), page.getList());
     }
 
     @GetMapping("{id}")
-        public R get(@PathVariable("id") Long id){
-        OrderItemEntity orderItem = orderItemService.getById(id);
-
-        return R.ok().put("orderItem", orderItem);
+    @ApiOperation("get")
+    public Result get(@PathVariable("id") Long id){
+        OrderItemDto data = orderItemService.get(id);
+        return new Result().ok(data);
     }
 
     @PostMapping
-        public R save(@RequestBody OrderItemEntity orderItem){
-
-        orderItemService.save(orderItem);
-
-        return R.ok();
+    @ApiOperation("save")
+    public Result save(@RequestBody OrderItemDto dto){
+        orderItemService.save(dto);
+        return new Result();
     }
 
     @PutMapping
-        public R update(@RequestBody OrderItemEntity orderItem){
-            orderItemService.updateById(orderItem);
-
-        return R.ok();
+    @ApiOperation("update")
+    public Result update(@RequestBody OrderItemDto dto){
+        orderItemService.update(dto);
+        return new Result();
     }
 
     @DeleteMapping
-        public R delete(@RequestBody Long[] ids){
-            orderItemService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    @ApiOperation("delete")
+    public Result delete(@RequestBody Long[] ids){
+        orderItemService.delete(ids);
+        return new Result();
     }
 }

@@ -1,16 +1,11 @@
 package com.ecommerce.order.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ecommerce.common.dao.BaseDao;
 import com.ecommerce.order.entity.PaymentInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * 支付信息表
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
-@Mapper
-public interface PaymentInfoDao extends BaseMapper<PaymentInfoEntity> {
 
+@Mapper
+public interface PaymentInfoDao extends BaseDao<PaymentInfoEntity> {
+	
 }

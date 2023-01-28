@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+
 
 package com.ecommerce.common.utils;
 
@@ -12,18 +6,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分页工具类
- *
- * @author Mark sunlightcs@gmail.com
  */
 public class PageUtils implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 总记录数
 	 */
-	private int totalCount;
+	private int total;
 	/**
 	 * 每页记录数
 	 */
@@ -35,7 +28,7 @@ public class PageUtils implements Serializable {
 	/**
 	 * 当前页数
 	 */
-	private int currPage;
+	private int current;
 	/**
 	 * 列表数据
 	 */
@@ -50,9 +43,9 @@ public class PageUtils implements Serializable {
 	 */
 	public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
 		this.list = list;
-		this.totalCount = totalCount;
+		this.total = totalCount;
 		this.pageSize = pageSize;
-		this.currPage = currPage;
+		this.current = currPage;
 		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
 	}
 
@@ -61,26 +54,27 @@ public class PageUtils implements Serializable {
 	 */
 	public PageUtils(IPage<?> page) {
 		this.list = page.getRecords();
-		this.totalCount = (int)page.getTotal();
+		this.total = (int)page.getTotal();
 		this.pageSize = (int)page.getSize();
-		this.currPage = (int)page.getCurrent();
+		this.current = (int)page.getCurrent();
 		this.totalPage = (int)page.getPages();
 	}
 
-	public int getTotalCount() {
-		return totalCount;
+	public static void fontEndToBackendFormat(Map<String, Object> params) {
+		if (params.containsKey("current")) {
+			params.put("curPage", params.get("current"));
+		}
+		if (params.containsKey("pageSize")) {
+			params.put("limit", params.get("pageSize"));
+		}
 	}
 
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public int getTotal() {
+		return total;
 	}
 
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 	public int getTotalPage() {
@@ -91,12 +85,21 @@ public class PageUtils implements Serializable {
 		this.totalPage = totalPage;
 	}
 
-	public int getCurrPage() {
-		return currPage;
+	public int getPageSize() {
+		return pageSize;
 	}
 
-	public void setCurrPage(int currPage) {
-		this.currPage = currPage;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(int current) {
+		this.current = current;
 	}
 
 	public List<?> getList() {

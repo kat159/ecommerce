@@ -1,16 +1,11 @@
 package com.ecommerce.order.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ecommerce.common.dao.BaseDao;
 import com.ecommerce.order.entity.OrderItemEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * 订单项信息
- *
- * @author allen xh1300092517@gmail.com
- * @since 1.0.0 2023-01-18
- */
-@Mapper
-public interface OrderItemDao extends BaseMapper<OrderItemEntity> {
 
+@Mapper
+public interface OrderItemDao extends BaseDao<OrderItemEntity> {
+	
 }
