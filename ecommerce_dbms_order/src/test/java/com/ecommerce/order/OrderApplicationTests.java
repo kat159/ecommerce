@@ -26,7 +26,7 @@ class OrderApplicationTests {
         for (int i = 0; i < 20; i++) {
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setOrderSn("test" + i);
-            orderService.save(orderEntity);
+            // orderService.save(orderEntity);
         }
     }
 

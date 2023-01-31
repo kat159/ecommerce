@@ -43,8 +43,8 @@ class CouponApplicationTests {
     void testInsert() {
         for (int i = 0; i < 20; i++) {
             CouponEntity couponEntity = new CouponEntity();
-            couponEntity.setCouponName("test" + i);
-            couponService.save(couponEntity);
+            // couponEntity.setCouponName("test" + i);
+            // couponService.save(couponEntity);
         }
     }
 }

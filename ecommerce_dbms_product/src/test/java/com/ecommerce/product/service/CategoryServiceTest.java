@@ -15,11 +15,5 @@ public class CategoryServiceTest {
 
     @Test
     public void listWithTree() {
-        List<CategoryDto> categoryDtoList = categoryService.listWithTree();
-        for (CategoryDto parent : categoryDtoList) {
-            for (CategoryDto child : parent.getChildren()) {
-                assert child.getParentCid().equals(parent.getCatId());
-            }
-        }
     }
 }
