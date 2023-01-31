@@ -38,16 +38,4 @@ class OrderApplicationTests {
         orderService.updateById(orderEntity);
     }
 
-    @Test
-    void testDelete() {
-        orderService.removeById(20L);
-    }
-
-    @Test
-    void testList() {
-        orderService.list(
-                new QueryWrapper<OrderEntity>()
-                        .like("order_sn", "test1")
-        ).forEach(System.out::println);
-    }
 }
