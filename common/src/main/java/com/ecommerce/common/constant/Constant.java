@@ -1,16 +1,10 @@
 package com.ecommerce.common.constant;
 
 /**
- * 常量
+ * constant
  */
 public interface Constant {
-    /**
-     * 成功
-     */
     int SUCCESS = 1;
-    /**
-     * 失败
-     */
     int FAIL = 0;
     /**
      * 菜单根节点标识
@@ -38,11 +32,11 @@ public interface Constant {
      */
     String SQL_FILTER = "sqlFilter";
     /**
-     * 当前页码
+     * Received page variable name from font-end
      */
     String PAGE = "current";
     /**
-     * 每页显示记录数
+     * Received limit variable name from font-end
      */
     String LIMIT = "pageSize";
     /**
@@ -91,18 +85,10 @@ public interface Constant {
      * 云服务商
      */
     enum CloudService {
-        /**
-         * 七牛云
-         */
-        QINIU(1),
-        /**
-         * 阿里云
-         */
-        ALIYUN(2),
-        /**
-         * 腾讯云
-         */
-        QCLOUD(3);
+        AWS(1),
+        AZURE(2),
+        GOOGLE(3),
+        ORACLE(4);
 
         private int value;
 

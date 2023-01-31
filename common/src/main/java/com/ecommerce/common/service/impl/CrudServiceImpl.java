@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.ecommerce.common.constant.Constant;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.service.CrudService;
 import com.ecommerce.common.utils.ConvertUtils;
@@ -16,21 +17,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  CRUD基础服务类
+ * CRUD基础服务类
  */
-public abstract class CrudServiceImpl<M extends BaseMapper<EntityT>, EntityT, DtoT> extends BaseServiceImpl<M, EntityT> implements CrudService<EntityT, DtoT> {
+public abstract class CrudServiceImpl<M extends BaseMapper<EntityT>, EntityT, DtoT>
+        extends BaseServiceImpl<M, EntityT>
+        implements CrudService<EntityT, DtoT> {
 
     protected Class<DtoT> currentDtoClass() {
-        return (Class<DtoT>)ReflectionKit.getSuperClassGenericType(getClass(), CrudServiceImpl.class, 2);
+        return (Class<DtoT>) ReflectionKit.getSuperClassGenericType(getClass(), CrudServiceImpl.class, 2);
     }
 
     @Override
     public PageData<DtoT> page(Map<String, Object> params) {
-        IPage<EntityT> page = baseDao.selectPage(
-            getPage(params, null, false),
-            getWrapper(params)
-        );
-
+        IPage<EntityT> page;
+        while (true) {
+            page = baseDao.selectPage(
+                    getPage(params, null, false),
+                    getWrapper(params)
+            );
+            if (page.getRecords().size() > 0 || page.getCurrent() == 1 || page.getTotal() == 0) {
+                break;
+            }
+            // page exceeds the total number of pages, reset to the last page
+            params.put(Constant.PAGE, Long.toString(page.getPages()));
+        }
         return getPageData(page, currentDtoClass());
     }
 

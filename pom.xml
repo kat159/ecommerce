@@ -18,11 +18,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>coupon</module>
-        <module>order</module>
-        <module>warehouse</module>
-        <module>product</module>
-        <module>member</module>
+        <module>ecommerce_dbms_coupon</module>
+        <module>ecommerce_dbms_order</module>
+        <module>ecommerce_dbms_warehouse</module>
+        <module>ecommerce_dbms_product</module>
+        <module>ecommerce_dbms_member</module>
         <module>common</module>
     </modules>
 

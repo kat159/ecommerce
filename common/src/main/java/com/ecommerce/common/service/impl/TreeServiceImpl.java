@@ -67,7 +67,8 @@ public abstract class TreeServiceImpl<M extends BaseMapper<EntityT>, EntityT, Dt
                     parent.addChild(dto);
                     // System.out.println("parent: " + parent);
                 } else {
-                    throw new RuntimeException("parent not exists");
+                    // do nothing, all the sub nodes of 'parent' will not be added to the tree
+                    // throw new RuntimeException("parent not exists");
                 }
             }
         }

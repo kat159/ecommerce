@@ -22,11 +22,6 @@ public class Result implements Serializable {
      */
     private boolean success = true;
     /**
-     * to be compatible with antd-pro
-     */
-    @ApiModelProperty(value = "total records in database(not the length of the data list)")
-    private int total = 0;
-    /**
      * 编码：0表示成功，其他值表示失败
      */
     @ApiModelProperty(value = "编码：0表示成功，其他值表示失败")
@@ -43,12 +38,6 @@ public class Result implements Serializable {
     private Object data;
 
     public Result ok(Object data) {
-        this.setData(data);
-        return this;
-    }
-
-    public Result ok(int total, Object data) {
-        this.setTotal(total);
         this.setData(data);
         return this;
     }
@@ -78,6 +67,14 @@ public class Result implements Serializable {
         return this;
     }
 
+    public Result error(int code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.success = false;
+        return this;
+    }
+
     public Result error(String msg) {
         this.code = ErrorCode.INTERNAL_SERVER_ERROR;
         this.msg = msg;
@@ -95,14 +92,6 @@ public class Result implements Serializable {
 
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
     }
 
     public void setCode(int code) {

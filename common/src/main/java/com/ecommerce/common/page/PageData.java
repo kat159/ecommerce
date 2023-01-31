@@ -18,18 +18,26 @@ public class PageData<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "总记录数")
-    private int total;
+    private long total;
 
     @ApiModelProperty(value = "列表数据")
     private List<T> list;
+
+    @ApiModelProperty(value = "当前页码")
+    private long current;
+
+    @ApiModelProperty(value = "每页记录数")
+    private long pageSize;
 
     /**
      * 分页
      * @param list   列表数据
      * @param total  总记录数
      */
-    public PageData(List<T> list, long total) {
+    public PageData(List<T> list, long current, long pageSize, long total) {
         this.list = list;
+        this.current = current;
+        this.pageSize = pageSize;
         this.total = (int)total;
     }
 }
