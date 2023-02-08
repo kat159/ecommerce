@@ -2,6 +2,7 @@
 
 package com.ecommerce.common.page;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,15 +30,17 @@ public class PageData<T> implements Serializable {
     @ApiModelProperty(value = "每页记录数")
     private long pageSize;
 
-    /**
-     * 分页
-     * @param list   列表数据
-     * @param total  总记录数
-     */
+    public PageData(Page<T> page) {
+        this.list = page.getRecords();
+        this.current = page.getCurrent();
+        this.pageSize = page.getSize();
+        this.total = page.getTotal();
+    }
     public PageData(List<T> list, long current, long pageSize, long total) {
         this.list = list;
         this.current = current;
         this.pageSize = pageSize;
         this.total = (int)total;
     }
+
 }

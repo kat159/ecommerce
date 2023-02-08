@@ -1,54 +1,73 @@
 package com.ecommerce.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ecommerce.common.dto.PaginationDto;
+import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.service.impl.CrudServiceImpl;
-import com.ecommerce.common.service.impl.TreeServiceImpl;
 import com.ecommerce.common.utils.ConvertUtils;
-import com.ecommerce.product.bo.CategoryBo;
+import com.ecommerce.common.utils.ServiceUtil;
+import com.ecommerce.common.vo.AddResponseVo;
+import com.ecommerce.product.bo.CategoryTreeBo;
 import com.ecommerce.product.dao.CategoryDao;
+import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
 import com.ecommerce.product.entity.CategoryEntity;
+import com.ecommerce.product.service.AttributeGroupService;
 import com.ecommerce.product.service.CategoryService;
-import org.apache.commons.lang3.StringUtils;
+import com.ecommerce.product.vo.AttributeGroupVo;
+import com.ecommerce.product.vo.CategoryTreeVo;
+import com.ecommerce.product.vo.CategoryVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
-public class CategoryServiceImpl extends TreeServiceImpl<CategoryDao, CategoryEntity, CategoryDto, CategoryBo>
+public class CategoryServiceImpl
+        extends CrudServiceImpl<CategoryDao, CategoryEntity, CategoryDto, CategoryVo>
         implements CategoryService {
 
+    @Autowired
+    private AttributeGroupService attributeGroupService;
+
     @Override
-    public void save(CategoryDto dto) {
-        CategoryEntity entity = ConvertUtils.sourceToTarget(dto, currentModelClass());
-        // initial soft delete value
-        entity.setNonDeleted(1);
-        // set level value
-        CategoryEntity parent = baseDao.selectById(entity.getParentId());
-        Integer parentLevel = parent.getLevel();
-        entity.setLevel(parentLevel + 1);
-
-        // TODO: capture it and return detail error to front end
-        if (parentLevel + 1 > 3) {
-            throw new RuntimeException("Category level can not be more than 3");
-        }
-
-        insert(entity);
-
-        //copy主键值到dto
-        BeanUtils.copyProperties(entity, dto);
+    public List<Long> addAll(List<CategoryDto> dtoList) {
+        List<CategoryEntity> entityList = ConvertUtils.sourceToTarget(dtoList, CategoryEntity.class);
+        List<Long> idList = new ArrayList<>();
+        entityList.forEach(entity -> {
+            entity.setNonDeleted(1);
+            if (entity.getLevel() == null) {
+                entity.setLevel(get(entity.getParentId()).getLevel() + 1);
+            }
+            baseDao.insert(entity);
+            idList.add(entity.getId());
+        });
+        return idList;
     }
 
     @Override
-    public QueryWrapper<CategoryEntity> getWrapper(Map<String, Object> params){
-        String id = (String)params.get("id");
-
-        QueryWrapper<CategoryEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
-
-        return wrapper;
+    public List<CategoryTreeVo> getForest() {
+        return ServiceUtil.getForest(baseDao, CategoryTreeVo.class, CategoryTreeBo.class);
     }
 
+    /**
+     * Relational: One to Many AttributeGroup
+     */
+    @Override
+    public PageData<AttributeGroupVo> pageAttrGroups(Long categoryId, PaginationDto paginationDto) {
+        return attributeGroupService.pageByCategoryId(categoryId, paginationDto);
+    }
+
+    @Override
+    public List<AttributeGroupVo> getAllAttrGroups(Long categoryId, PaginationDto paginationDto) {
+        return attributeGroupService.getAllByCategoryId(categoryId, paginationDto);
+    }
+
+    @Override
+    public void addAllAttrGroup(Long categoryId, List<AttributeGroupDto> attributeGroupDtoList) {
+        attributeGroupDtoList.forEach(attributeGroupDto -> attributeGroupDto.setCategoryId(categoryId));
+        attributeGroupService.addAll(attributeGroupDtoList);
+    }
 }

@@ -1,17 +1,16 @@
 package com.ecommerce.product.dto;
 
-import com.ecommerce.common.dto.TreeDto;
+import com.ecommerce.common.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 @Data
 @ApiModel(value = "product category, up to three-level categorization")
-public class CategoryDto extends TreeDto<CategoryDto>
+public class CategoryDto extends BaseDto<CategoryDto>
 		implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -36,22 +35,5 @@ public class CategoryDto extends TreeDto<CategoryDto>
 	@ApiModelProperty(value = "icon address")
 	private String icon;
 
-	@ApiModelProperty(value = "unit of measurement")
-	private String productUnit;
 
-	@ApiModelProperty(value = "number of products")
-	private Integer productCount;
-
-	@ApiModelProperty(value = "subCategories")
-	private List<CategoryDto> children;
-
-	@Override
-	public List<CategoryDto> getChildren() {
-		return children;
-	}
-
-	@Override
-	public void setChildren(List<CategoryDto> children) {
-		this.children = children;
-	}
 }

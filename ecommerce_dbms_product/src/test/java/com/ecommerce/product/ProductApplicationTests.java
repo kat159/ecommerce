@@ -22,7 +22,6 @@ class ProductApplicationTests {
         for (int i = 0; i < 20; i++) {
             BrandEntity brandEntity = new BrandEntity();
             brandEntity.setName("test" + i);
-            // brandService.save(brandEntity);
         }
     }
 }

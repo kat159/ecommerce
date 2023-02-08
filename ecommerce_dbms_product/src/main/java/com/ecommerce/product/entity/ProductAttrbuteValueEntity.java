@@ -2,11 +2,12 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("product_attrbute_value")
-public class ProductAttrbuteValueEntity {
+public class ProductAttrbuteValueEntity extends BaseEntity<ProductAttrbuteValueEntity> {
 
     /**
      * id

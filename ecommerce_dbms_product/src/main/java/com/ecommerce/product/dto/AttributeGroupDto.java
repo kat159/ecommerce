@@ -1,5 +1,6 @@
 package com.ecommerce.product.dto;
 
+import com.ecommerce.common.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,11 +10,14 @@ import java.io.Serializable;
 
 @Data
 @ApiModel(value = "attribute group")
-public class AttributeGroupDto implements Serializable {
+public class AttributeGroupDto extends BaseDto<AttributeGroupDto> implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "group ID")
 	private Long id;
+
+	@ApiModelProperty(value = "category it belongs to")
+	private Long categoryId;
 
 	@ApiModelProperty(value = "group name")
 	private String name;
@@ -26,9 +30,6 @@ public class AttributeGroupDto implements Serializable {
 
 	@ApiModelProperty(value = "group icon")
 	private String icon;
-
-	@ApiModelProperty(value = "category it belongs to")
-	private Long categoryId;
 
 
 }

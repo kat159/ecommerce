@@ -38,6 +38,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public Result handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
         errors.put("HttpMessageNotReadableException", errorMessage);
@@ -45,9 +46,10 @@ public class ExceptionController {
     }
 
     // catch all other exceptions
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {Throwable.class})
     public Result handleException(Throwable e) {
+        System.out.println("Other exceptions: " + e);
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
         errors.put("Exception", errorMessage);

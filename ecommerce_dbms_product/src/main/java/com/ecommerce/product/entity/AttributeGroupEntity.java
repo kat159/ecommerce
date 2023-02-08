@@ -2,17 +2,22 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("attribute_group")
-public class AttributeGroupEntity {
+public class AttributeGroupEntity extends BaseEntity<AttributeGroupEntity> {
 
     /**
      * group ID
      */
 		@TableId
 		private Long id;
+    /**
+     * category it belongs to
+     */
+		private Long categoryId;
     /**
      * group name
      */
@@ -29,8 +34,4 @@ public class AttributeGroupEntity {
      * group icon
      */
 		private String icon;
-    /**
-     * category it belongs to
-     */
-		private Long categoryId;
 }

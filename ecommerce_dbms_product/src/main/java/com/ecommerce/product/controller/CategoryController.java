@@ -1,73 +1,86 @@
 package com.ecommerce.product.controller;
 
-import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.utils.Result;
+import com.ecommerce.common.vo.AddResponseVo;
+import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
 import com.ecommerce.product.service.CategoryService;
+import com.ecommerce.product.vo.CategoryVo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Map;
-
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("product/category")
-@Api(tags="product category, up to three-level categorization")
+@Api(tags = "product category, up to three-level categorization")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("tree")
-    @ApiOperation("get category tree")
-    public Result tree(){
-        return new Result().ok(categoryService.getTree());
-    }
-
-    @GetMapping("page")
-    @ApiOperation("pagination")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
-        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
-    })
-    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<CategoryDto> page = categoryService.page(params);
-
+    @GetMapping("/page")
+    public Result page(@Valid PaginationDto params) {
+        PageData<CategoryVo> page = categoryService.page(params);
         return new Result().ok(page);
     }
 
     @GetMapping("{id}")
-    @ApiOperation("get")
-    public Result get(@PathVariable("id") Long id){
-        CategoryDto data = categoryService.get(id);
+    public Result get(@PathVariable("id") Long id) {
+        CategoryVo data = categoryService.get(id);
         return new Result().ok(data);
     }
 
+    @GetMapping("/all")
+    public Result getAll() {
+        List<CategoryVo> list = categoryService.getAll();
+        return new Result().ok(list);
+    }
+
     @PostMapping
-    @ApiOperation("save")
-    public Result save(@RequestBody CategoryDto dto){
-        categoryService.save(dto);
-        return new Result();
+    public Result addAll(@RequestBody List<CategoryDto> dtoList) {
+        List<Long> res = categoryService.addAll(dtoList);
+        return new Result().ok(res);
     }
 
     @PutMapping
-    @ApiOperation("update")
-    public Result update(@RequestBody CategoryDto dto){
-        categoryService.update(dto);
+    public Result updateAll(@RequestBody List<CategoryDto> dtoList) {
+        categoryService.updateAll(dtoList);
         return new Result();
     }
 
     @DeleteMapping
-    @ApiOperation("delete")
-    public Result delete(@RequestBody Long[] ids){
-        categoryService.delete(ids);
+    public Result removeAll(@RequestBody List<Long> idList) {
+        categoryService.removeAll(idList);
+        return new Result();
+    }
+
+    @GetMapping("/forest") // build category forest, return root node list
+    public Result forest() { // build category forest, return root node List
+        return new Result().ok(categoryService.getForest());
+    }
+
+    /**
+     * Relational: One to Many <AttributeGroup>
+     */
+    @GetMapping("/{id}/attrgroup/page")
+    public Result pageAttrGroup(@PathVariable("id") Long categoryId, @Valid PaginationDto params) {
+        return new Result().ok(categoryService.pageAttrGroups(categoryId, params));
+    }
+
+    @GetMapping("{id}/attrgroup")
+    public Result getAllAttrGroup(@PathVariable("id") Long categoryId, @Valid PaginationDto params) {
+        return new Result().ok(categoryService.getAllAttrGroups(categoryId, params));
+    }
+
+    @PostMapping("{id}/attrgroup")
+    public Result addAllAttrGroup(@PathVariable("id") Long categoryId, @RequestBody List<AttributeGroupDto> attributeGroupDtoList) {
+        categoryService. addAllAttrGroup(categoryId, attributeGroupDtoList);
         return new Result();
     }
 }

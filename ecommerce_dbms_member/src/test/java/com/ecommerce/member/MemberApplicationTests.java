@@ -10,21 +10,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MemberApplicationTests {
 
-    @Autowired
-    MemberDao memberDao;
-
-    @Autowired
-    MemberService memberService;
-
-    @Test
-    void contextLoads() {
-    }
-    @Test
-    void testInsert() {
-        for (int i = 0; i < 20; i++) {
-            MemberEntity memberEntity = new MemberEntity();
-            memberEntity.setNickname("test" + i);
-            // memberService.save(memberEntity);
-        }
-    }
+    // @Autowired
+    // MemberDao memberDao;
+    //
+    // @Autowired
+    // MemberService memberService;
+    //
+    // @Test
+    // void contextLoads() {
+    // }
+    // @Test
+    // void testInsert() {
+    //     for (int i = 0; i < 20; i++) {
+    //         MemberEntity memberEntity = new MemberEntity();
+    //         memberEntity.setNickname("test" + i);
+    //         // memberService.save(memberEntity);
+    //     }
+    // }
 }

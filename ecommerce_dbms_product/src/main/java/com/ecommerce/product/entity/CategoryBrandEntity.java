@@ -2,11 +2,12 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("category_brand")
-public class CategoryBrandEntity {
+public class CategoryBrandEntity extends BaseEntity<CategoryBrandEntity> {
 
     /**
      * 

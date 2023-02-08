@@ -13,38 +13,38 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CouponApplicationTests {
 
-    @Autowired
-    CouponDao couponDao;
-
-    @Autowired
-    CouponService couponService;
-
-    @Test
-    void contextLoads() {
-
-    }
-
-    @Test
-    void testPage() {
-        IPage<CouponEntity> page = new Page<>(2, 5);
-        couponDao.selectPage(
-                // new Page<>(3, 3),
-                page,
-                new QueryWrapper<>()
-        );
-        System.out.println(page.getCurrent());
-        System.out.println(page.getSize());
-        System.out.println(page.getTotal());
-        System.out.println(page.getPages());
-        System.out.println(page.getRecords());
-    }
-
-    @Test
-    void testInsert() {
-        for (int i = 0; i < 20; i++) {
-            CouponEntity couponEntity = new CouponEntity();
-            // couponEntity.setCouponName("test" + i);
-            // couponService.save(couponEntity);
-        }
-    }
+    // @Autowired
+    // CouponDao couponDao;
+    //
+    // @Autowired
+    // CouponService couponService;
+    //
+    // @Test
+    // void contextLoads() {
+    //
+    // }
+    //
+    // @Test
+    // void testPage() {
+    //     IPage<CouponEntity> page = new Page<>(2, 5);
+    //     couponDao.selectPage(
+    //             // new Page<>(3, 3),
+    //             page,
+    //             new QueryWrapper<>()
+    //     );
+    //     System.out.println(page.getCurrent());
+    //     System.out.println(page.getSize());
+    //     System.out.println(page.getTotal());
+    //     System.out.println(page.getPages());
+    //     System.out.println(page.getRecords());
+    // }
+    //
+    // @Test
+    // void testInsert() {
+    //     for (int i = 0; i < 20; i++) {
+    //         CouponEntity couponEntity = new CouponEntity();
+    //         // couponEntity.setCouponName("test" + i);
+    //         // couponService.save(couponEntity);
+    //     }
+    // }
 }

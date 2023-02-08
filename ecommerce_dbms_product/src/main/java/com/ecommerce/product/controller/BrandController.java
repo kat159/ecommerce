@@ -1,24 +1,17 @@
 package com.ecommerce.product.controller;
 
-import com.ecommerce.common.constant.Constant;
+import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.utils.Result;
-import com.ecommerce.common.validation.group.Save;
-import com.ecommerce.common.validation.group.Update;
 import com.ecommerce.product.dto.BrandDto;
 import com.ecommerce.product.service.BrandService;
+import com.ecommerce.product.vo.BrandVo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Map;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("product/brand")
@@ -28,48 +21,32 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping("page")
-    @ApiOperation("pagination")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
-        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
-    })
-    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<BrandDto> page = brandService.page(params);
-
+    public Result page(@Valid PaginationDto params){
+        PageData<BrandVo> page = brandService.page(params);
         return new Result().ok(page);
     }
 
     @GetMapping("{id}")
-    @ApiOperation("get")
     public Result get(@PathVariable("id") Long id){
-        BrandDto data = brandService.get(id);
+        BrandVo data = brandService.get(id);
         return new Result().ok(data);
     }
 
     @PostMapping
-    @ApiOperation("save")
-    public Result save(
-            @Validated({Save.class}) @RequestBody BrandDto dto
-    ){
-        brandService.save(dto);
-        return new Result();
+    public Result addAll(@RequestBody List<BrandDto> dtoList){
+        List<Long> res = brandService.addAll(dtoList);
+        return new Result().ok(res);
     }
 
     @PutMapping
-    @ApiOperation("update")
-    public Result update(
-            @Validated({Update.class}) @RequestBody BrandDto dto
-    ){
-        brandService.update(dto);
+    public Result updateAll(@RequestBody List<BrandDto> dtoList){
+        brandService.updateAll(dtoList);
         return new Result();
     }
 
     @DeleteMapping
-    @ApiOperation("delete")
-    public Result delete(@RequestBody Long[] ids){
-        brandService.delete(ids);
+    public Result removeAll(@RequestBody List<Long> idList){
+        brandService.removeAll(idList);
         return new Result();
     }
 }

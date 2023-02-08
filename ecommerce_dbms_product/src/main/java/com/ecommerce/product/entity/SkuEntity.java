@@ -2,13 +2,14 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
 @TableName("sku")
-public class SkuEntity {
+public class SkuEntity extends BaseEntity<SkuEntity> {
 
     /**
      * sku id
@@ -20,14 +21,6 @@ public class SkuEntity {
      */
 		private Long productId;
     /**
-     * sku name
-     */
-		private String name;
-    /**
-     * sku description
-     */
-		private String description;
-    /**
      * category id
      */
 		private Long categoryId;
@@ -35,6 +28,14 @@ public class SkuEntity {
      * brand id
      */
 		private Long brandId;
+    /**
+     * sku name
+     */
+		private String name;
+    /**
+     * sku description
+     */
+		private String description;
     /**
      * default image
      */

@@ -27,4 +27,5 @@ public abstract class TreeBo<InheritorT> {
      * set children list
      */
     public abstract void setChildren(List<InheritorT> children);
+
 }

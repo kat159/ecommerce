@@ -2,28 +2,20 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 @TableName("product")
-public class ProductEntity {
+public class ProductEntity extends BaseEntity<ProductEntity> {
 
     /**
      * product id
      */
 		@TableId
 		private Long id;
-    /**
-     * product name
-     */
-		private String name;
-    /**
-     * product description
-     */
-		private String description;
     /**
      * category id
      */
@@ -33,9 +25,13 @@ public class ProductEntity {
      */
 		private Long brandId;
     /**
-     * 
+     * product name
      */
-		private BigDecimal weight;
+		private String name;
+    /**
+     * product description
+     */
+		private String description;
     /**
      * publish status [0 - not published, 1 - published]
      */

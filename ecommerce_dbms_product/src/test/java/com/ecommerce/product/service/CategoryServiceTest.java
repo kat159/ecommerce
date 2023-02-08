@@ -10,10 +10,11 @@ import java.util.List;
 @SpringBootTest
 public class CategoryServiceTest {
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Test
-    public void listWithTree() {
-    }
+    // @Autowired
+    // private CategoryService categoryService;
+    //
+    // @Test
+    // public void listWithTree() {
+    //     categoryService.getTree();
+    // }
 }

@@ -2,11 +2,12 @@ package com.ecommerce.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("sku_attr_value")
-public class SkuAttrValueEntity {
+public class SkuAttrValueEntity extends BaseEntity<SkuAttrValueEntity> {
 
     /**
      * id
@@ -30,7 +31,7 @@ public class SkuAttrValueEntity {
      */
 		private String attrValue;
     /**
-     * sort order
+     * assume List[img1, img2, img3], display_order=index
      */
-		private Integer attrSort;
+		private Integer displayOrder;
 }

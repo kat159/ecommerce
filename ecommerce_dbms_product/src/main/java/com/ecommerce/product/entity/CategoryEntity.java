@@ -1,14 +1,12 @@
 package com.ecommerce.product.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("category")
-public class CategoryEntity {
+public class CategoryEntity extends BaseEntity<CategoryEntity> {
 
     /**
      * category id
@@ -31,6 +29,7 @@ public class CategoryEntity {
      * for soft delete[0-deleted; 1-non-deleted]
      */
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer nonDeleted;
     /**
      * sort order
@@ -40,12 +39,4 @@ public class CategoryEntity {
      * icon address
      */
     private String icon;
-    /**
-     * unit of measurement
-     */
-    private String productUnit;
-    /**
-     * number of products
-     */
-    private Integer productCount;
 }

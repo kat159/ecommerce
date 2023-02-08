@@ -1,5 +1,6 @@
 package com.ecommerce.product.dto;
 
+import com.ecommerce.common.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +11,8 @@ import java.math.BigDecimal;
 
 @Data
 @ApiModel(value = "sku")
-public class SkuDto implements Serializable {
+public class SkuDto extends BaseDto<SkuDto>
+		implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "sku id")
@@ -19,17 +21,17 @@ public class SkuDto implements Serializable {
 	@ApiModelProperty(value = "product id")
 	private Long productId;
 
-	@ApiModelProperty(value = "sku name")
-	private String name;
-
-	@ApiModelProperty(value = "sku description")
-	private String description;
-
 	@ApiModelProperty(value = "category id")
 	private Long categoryId;
 
 	@ApiModelProperty(value = "brand id")
 	private Long brandId;
+
+	@ApiModelProperty(value = "sku name")
+	private String name;
+
+	@ApiModelProperty(value = "sku description")
+	private String description;
 
 	@ApiModelProperty(value = "default image")
 	private String defaultImg;
@@ -45,4 +47,6 @@ public class SkuDto implements Serializable {
 
 	@ApiModelProperty(value = "sales count")
 	private Long saleCount;
+
+
 }

@@ -1,5 +1,7 @@
 package com.ecommerce.common.constant;
 
+import com.ecommerce.common.validation.annotation.StringEnum;
+
 /**
  * constant
  */
@@ -48,10 +50,13 @@ public interface Constant {
      */
     String ORDER = "order";
     /**
+     * to indicate query: where xxx like value%
+     */
+
+    /**
      * token header
      */
     String TOKEN_HEADER = "token";
-
     /**
      * 云存储配置KEY
      */

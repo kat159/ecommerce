@@ -1,5 +1,6 @@
 package com.ecommerce.product.dto;
 
+import com.ecommerce.common.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +10,8 @@ import java.io.Serializable;
 
 @Data
 @ApiModel(value = "product attribute value, many to one product")
-public class ProductAttrbuteValueDto implements Serializable {
+public class ProductAttrbuteValueDto extends BaseDto<ProductAttrbuteValueDto>
+		implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "id")
