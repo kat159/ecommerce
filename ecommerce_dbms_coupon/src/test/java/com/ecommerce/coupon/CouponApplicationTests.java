@@ -32,11 +32,11 @@ class CouponApplicationTests {
     //             page,
     //             new QueryWrapper<>()
     //     );
-    //     System.out.println(page.getCurrent());
-    //     System.out.println(page.getSize());
-    //     System.out.println(page.getTotal());
-    //     System.out.println(page.getPages());
-    //     System.out.println(page.getRecords());
+    //     
+    //     
+    //     
+    //     
+    //     
     // }
     //
     // @Test

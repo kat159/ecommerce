@@ -61,7 +61,7 @@ public class ProductRewardController {
     @DeleteMapping
     @ApiOperation("delete")
     public Result delete(@RequestBody Long[] ids){
-        System.out.println("ids = " + ids);
+        
         productRewardService.delete(ids);
         return new Result();
     }

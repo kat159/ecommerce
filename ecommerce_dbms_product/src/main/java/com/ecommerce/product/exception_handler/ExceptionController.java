@@ -49,7 +49,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {Throwable.class})
     public Result handleException(Throwable e) {
-        System.out.println("Other exceptions: " + e);
+        
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
         errors.put("Exception", errorMessage);

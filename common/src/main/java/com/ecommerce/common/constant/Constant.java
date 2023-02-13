@@ -52,7 +52,7 @@ public interface Constant {
     /**
      * to indicate query: where xxx like value%
      */
-
+    String STRING_SEPARATOR = "<----->";
     /**
      * token header
      */

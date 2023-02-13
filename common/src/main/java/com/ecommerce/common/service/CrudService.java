@@ -23,9 +23,11 @@ public interface CrudService<EntityT, DtoT, VoT> {
     <P extends PaginationDto> List<VoT> getAll();
     <P extends PaginationDto> List<VoT> getAll(QueryWrapper<EntityT> queryWrapper);
     VoT get(Long id);
-    AddResponseVo add(DtoT dto);
+    Long add(DtoT dto);
     List<Long> addAll(List<DtoT> dtoList);
     void update(DtoT dto);
     void updateAll(List<DtoT> dtoList);
     void removeAll(List<Long> idList);
+
+
 }

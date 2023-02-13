@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -27,7 +28,7 @@ public class AttributeVo extends BaseVo<AttributeVo>
     @ApiModelProperty(value = "[0-single value, 1-multiple values can be selected]")
     private Integer selective;
     @ApiModelProperty(value = "list of selectable values (separated by commas)")
-    private String selectableValueList;
+    private List<String> selectableValueList;
     @ApiModelProperty(value = "attribute type [0-sale attribute, 1-basic attribute, 2-both sale and basic attribute]")
     private Integer type;
     @ApiModelProperty(value = "status [0 - disabled, 1 - enabled]")

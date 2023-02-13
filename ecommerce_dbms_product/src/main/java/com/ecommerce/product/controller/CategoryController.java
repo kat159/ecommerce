@@ -6,6 +6,7 @@ import com.ecommerce.common.utils.Result;
 import com.ecommerce.common.vo.AddResponseVo;
 import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
+import com.ecommerce.product.dto.pagination.CategoryPaginationDto;
 import com.ecommerce.product.service.CategoryService;
 import com.ecommerce.product.vo.CategoryVo;
 import io.swagger.annotations.Api;
@@ -36,9 +37,14 @@ public class CategoryController {
         return new Result().ok(data);
     }
 
+    // @GetMapping("/all")
+    // public Result getAll() {
+    //     List<CategoryVo> list = categoryService.getAll();
+    //     return new Result().ok(list);
+    // }
     @GetMapping("/all")
-    public Result getAll() {
-        List<CategoryVo> list = categoryService.getAll();
+    public Result getAll(@Valid CategoryPaginationDto params) {
+        List<CategoryVo> list = categoryService.getAll(params);
         return new Result().ok(list);
     }
 
@@ -80,7 +86,14 @@ public class CategoryController {
 
     @PostMapping("{id}/attrgroup")
     public Result addAllAttrGroup(@PathVariable("id") Long categoryId, @RequestBody List<AttributeGroupDto> attributeGroupDtoList) {
-        categoryService. addAllAttrGroup(categoryId, attributeGroupDtoList);
-        return new Result();
+        List<Long> idList = categoryService. addAllAttrGroup(categoryId, attributeGroupDtoList);
+        return new Result().ok(idList);
     }
+
+    @GetMapping("{id}/attrgroup/attribute")
+    public Result getAllAttrGroupWithAttrList(@PathVariable("id") Long categoryId) {
+        System.out.println("getAllAttrGroupWithAttrList");
+        return new Result().ok(categoryService.getAllAttrGroupWithAttrList(categoryId));
+    }
+
 }

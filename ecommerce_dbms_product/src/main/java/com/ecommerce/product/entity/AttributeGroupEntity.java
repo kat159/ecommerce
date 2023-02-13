@@ -12,26 +12,26 @@ public class AttributeGroupEntity extends BaseEntity<AttributeGroupEntity> {
     /**
      * group ID
      */
-		@TableId
-		private Long id;
+    @TableId
+    private Long id;
     /**
      * category it belongs to
      */
-		private Long categoryId;
+    private Long categoryId;
     /**
      * group name
      */
-		private String name;
+    private String name;
     /**
      * sort order
      */
-		private Integer sort;
+    private Integer sort;
     /**
      * description
      */
-		private String description;
+    private String description;
     /**
      * group icon
      */
-		private String icon;
+    private String icon;
 }

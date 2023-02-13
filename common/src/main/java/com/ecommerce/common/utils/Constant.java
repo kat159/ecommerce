@@ -6,8 +6,10 @@ package com.ecommerce.common.utils;
  * 常量
  */
 public class Constant {
-	/** 超级管理员ID */
-	public static final int SUPER_ADMIN = 1;
+    /**
+     * 超级管理员ID
+     */
+    public static final int SUPER_ADMIN = 1;
     /**
      * 当前页码
      */
@@ -25,17 +27,18 @@ public class Constant {
      */
     public static final String ORDER = "order";
     /**
-     *  升序
+     * 升序
      */
     public static final String ASC = "asc";
-	/**
-	 * 菜单类型
-	 */
+
+    /**
+     * 菜单类型
+     */
     public enum MenuType {
         /**
          * 目录
          */
-    	CATALOG(0),
+        CATALOG(0),
         /**
          * 菜单
          */
@@ -55,7 +58,7 @@ public class Constant {
             return value;
         }
     }
-    
+
     /**
      * 定时任务状态
      */
@@ -63,18 +66,18 @@ public class Constant {
         /**
          * 正常
          */
-    	NORMAL(0),
+        NORMAL(0),
         /**
          * 暂停
          */
-    	PAUSE(1);
+        PAUSE(1);
 
         private int value;
 
         ScheduleStatus(int value) {
             this.value = value;
         }
-        
+
         public int getValue() {
             return value;
         }

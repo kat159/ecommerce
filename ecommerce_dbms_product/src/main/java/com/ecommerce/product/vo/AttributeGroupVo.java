@@ -21,8 +21,8 @@ public class AttributeGroupVo extends BaseVo<AttributeGroupVo> implements Serial
     private String name;
     @ApiModelProperty(value = "sort order")
     private Integer sort;
-    // @ApiModelProperty(value = "description")
-    // private String description;
+    @ApiModelProperty(value = "description")
+    private String description;
     @ApiModelProperty(value = "group icon")
     private String icon;
 

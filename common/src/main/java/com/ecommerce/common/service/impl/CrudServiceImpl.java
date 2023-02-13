@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.constant.Constant;
 import com.ecommerce.common.dto.BaseDto;
@@ -16,7 +15,6 @@ import com.ecommerce.common.entity.BaseEntity;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.service.CrudService;
 import com.ecommerce.common.utils.ConvertUtils;
-import com.ecommerce.common.vo.AddResponseVo;
 import com.ecommerce.common.vo.BaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,24 +42,49 @@ public abstract class CrudServiceImpl<
         return (Class<EntityT>) ReflectionKit.getSuperClassGenericType(this.getClass(), CrudServiceImpl.class, 1);
     }
 
-    @Override
-    public VoT get(Long id) {
-        EntityT entity = baseDao.selectById(id);
+    protected EntityT dtoToEntity(DtoT dto) {
+        return ConvertUtils.sourceToTarget(dto, currentEntityClass());
+    }
+
+    protected List<EntityT> dtoToEntity(List<DtoT> dtoList) {
+        List<EntityT> entityList = new ArrayList<>();
+        dtoList.forEach(dto -> {
+            entityList.add(dtoToEntity(dto));
+        });
+        return entityList;
+    }
+
+    protected VoT entityToVo(EntityT entity) {
         return ConvertUtils.sourceToTarget(entity, currentVoClass());
     }
 
+    protected List<VoT> entityToVo(List<EntityT> entityList) {
+        List<VoT> voList = new ArrayList<>();
+        entityList.forEach(entity -> {
+            voList.add(entityToVo(entity));
+        });
+        return voList;
+    }
     @Override
-    public AddResponseVo add(DtoT dto) {
-        EntityT entity = ConvertUtils.sourceToTarget(dto, currentEntityClass());
+    public VoT get(Long id) {
+        EntityT entity = baseDao.selectById(id);
+        // return ConvertUtils.sourceToTarget(entity, currentVoClass());
+        return entityToVo(entity);
+    }
+
+    @Override
+    public Long add(DtoT dto) {
+        // EntityT entity = ConvertUtils.sourceToTarget(dto, currentEntityClass());
+        EntityT entity = dtoToEntity(dto);
         baseDao.insert(entity);
-        AddResponseVo result = new AddResponseVo(entity.getId());
-        return result;
+        return entity.getId();
     }
 
     // TODO: optimize with sql statement
     @Override
     public List<Long> addAll(List<DtoT> dtoList) {
-        List<EntityT> entityList = ConvertUtils.sourceToTarget(dtoList, currentEntityClass());
+        // List<EntityT> entityList = ConvertUtils.sourceToTarget(dtoList, currentEntityClass());
+        List<EntityT> entityList = dtoToEntity(dtoList);
         List<Long> idList = new ArrayList<>();
         entityList.forEach(entity -> {
             baseDao.insert(entity);
@@ -72,13 +95,15 @@ public abstract class CrudServiceImpl<
 
     @Override
     public void update(DtoT dto) {
-        EntityT entity = ConvertUtils.sourceToTarget(dto, currentEntityClass());
+        // EntityT entity = ConvertUtils.sourceToTarget(dto, currentEntityClass());
+        EntityT entity = dtoToEntity(dto);
         baseDao.updateById(entity);
     }
 
     @Override
     public void updateAll(List<DtoT> dtoList) {
-        List<EntityT> entityList = ConvertUtils.sourceToTarget(dtoList, currentEntityClass());
+        // List<EntityT> entityList = ConvertUtils.sourceToTarget(dtoList, currentEntityClass());
+        List<EntityT> entityList = dtoToEntity(dtoList);
         entityList.forEach(entity -> baseDao.updateById(entity));
     }
 
@@ -94,23 +119,26 @@ public abstract class CrudServiceImpl<
 
     @Override
     public <P extends PaginationDto> PageData<VoT> page(P params, QueryWrapper<EntityT> queryWrapper) {
-        IPage<EntityT> page = getEntityResult(params, queryWrapper);
-        List<VoT> dtoList = ConvertUtils.sourceToTarget(page.getRecords(), currentVoClass());
+        IPage<EntityT> page = getPageResult(params, queryWrapper);
+        // List<VoT> dtoList = ConvertUtils.sourceToTarget(page.getRecords(), currentVoClass());
+        List<VoT> dtoList = entityToVo(page.getRecords());
         return new PageData<>(dtoList, page.getCurrent(), page.getSize(), page.getTotal());
     }
 
     @Override
     public <P extends PaginationDto> List<VoT> getAll() {
-        return getAll(null);
+        List<EntityT> entityList = baseDao.selectList(null);
+        return entityToVo(entityList);
+
     }
 
     @Override
     public <P extends PaginationDto> List<VoT> getAll(QueryWrapper<EntityT> queryWrapper) {
         List<EntityT> entityList = baseDao.selectList(queryWrapper);
-        return ConvertUtils.sourceToTarget(entityList, currentVoClass());
+        return entityToVo(entityList);
     }
 
-    private <P extends PaginationDto> IPage<EntityT> getEntityResult(P params, QueryWrapper<EntityT> queryWrapper) {
+    private <P extends PaginationDto> IPage<EntityT> getPageResult(P params, QueryWrapper<EntityT> queryWrapper) {
         IPage<EntityT> page;
         while (true) {
             page = baseDao.selectPage(getPageParams(params), queryWrapper);

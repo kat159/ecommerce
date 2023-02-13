@@ -14,9 +14,11 @@ import java.util.List;
 
 public interface AttributeGroupService extends CrudService<AttributeGroupEntity, AttributeGroupDto, AttributeGroupVo> {
 
+    /** Relational: MANY TO ONE <Category> */
     PageData<AttributeGroupVo> pageByCategoryId(Long categoryId, PaginationDto paginationDto);
     List<AttributeGroupVo> getAllByCategoryId(Long categoryId, PaginationDto paginationDto);
 
+    /** Relational: ONE TO MANY <Attribute> */
     List<AttributeVo> getAllAttribute(Long id, PaginationDto paginationDto);
 
     List<Long> addAllAttribute(Long id, List<AttributeDto> dtoList);

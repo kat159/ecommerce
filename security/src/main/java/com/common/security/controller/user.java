@@ -14,7 +14,7 @@ import java.util.Map;
 public class user {
     @GetMapping("page")
     public Map<String, String> page(@RequestParam String token) {
-        System.out.println("Received token: " + token);
+        
         return new HashMap<>();
     }
 

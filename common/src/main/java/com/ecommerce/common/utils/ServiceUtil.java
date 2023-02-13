@@ -41,7 +41,7 @@ public class ServiceUtil {
         List<BoT> rootList = new ArrayList<>();
         Map<Long, BoT> map = new HashMap<>();
         for (BoT bo : boList) {
-            System.out.println(bo.getId() + ", " + bo.getParentId());
+            
             map.put(bo.getId(), bo);
         }
         for (BoT bo : boList) {
@@ -55,7 +55,7 @@ public class ServiceUtil {
                 BoT parent = map.get(bo.getParentId());
                 if (parent != null) { // parent exists
                     parent.addChild(bo);
-                    // System.out.println("parent: " + parent);
+                    // 
                 } else { // parent deleted
                     // do nothing, all the sub nodes of 'parent' will not be added to the tree
                     // throw new RuntimeException("parent not exists");

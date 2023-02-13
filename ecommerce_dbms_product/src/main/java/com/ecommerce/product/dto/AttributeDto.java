@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -33,7 +34,7 @@ public class AttributeDto extends BaseDto<AttributeDto>
 	private Integer selective;
 
 	@ApiModelProperty(value = "list of selectable values (separated by commas)")
-	private String selectableValueList;
+	private List<String> selectableValueList;
 
 	@ApiModelProperty(value = "attribute type [0-sale attribute, 1-basic attribute, 2-both sale and basic attribute]")
 	private Integer type;

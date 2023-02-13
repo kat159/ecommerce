@@ -47,7 +47,7 @@ public class OrderTaskController {
     @PostMapping
     @ApiOperation("save")
     public Result save(@RequestBody OrderTaskDto dto){
-        System.out.println(dto);
+        
         orderTaskService.save(dto);
         return new Result();
     }

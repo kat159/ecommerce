@@ -33,6 +33,7 @@ public class AttributeGroupServiceImpl
     public PageData<AttributeGroupVo> pageByCategoryId(Long categoryId, PaginationDto paginationDto) {
         QueryWrapper<AttributeGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("category_id", categoryId);
+        queryWrapper.orderByAsc("sort");
         return page(paginationDto, queryWrapper);
     }
 
@@ -40,6 +41,7 @@ public class AttributeGroupServiceImpl
     public List<AttributeGroupVo> getAllByCategoryId(Long categoryId, PaginationDto paginationDto) {
         QueryWrapper<AttributeGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("category_id", categoryId);
+        queryWrapper.orderByAsc("sort");
         return getAll(queryWrapper);
     }
 
