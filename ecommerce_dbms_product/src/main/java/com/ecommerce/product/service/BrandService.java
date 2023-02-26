@@ -24,4 +24,5 @@ public interface BrandService extends CrudService<BrandEntity, BrandDto, BrandVo
     List<ProductVo> getAllProduct(Long brandId);
 
     List<Long> addAllProduct(Long brandId, List<ProductDto> productDtoList);
+
 }

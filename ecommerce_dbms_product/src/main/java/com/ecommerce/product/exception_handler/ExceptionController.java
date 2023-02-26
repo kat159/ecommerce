@@ -8,6 +8,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +54,9 @@ public class ExceptionController {
         
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
-        errors.put("Exception", errorMessage);
-
+        errors.put("Exception", e.getMessage());
+        errors.put("localizedMessage", e.getLocalizedMessage());
+        errors.put("stackTrace", Arrays.toString(e.getStackTrace()));
         return new Result().error(HttpStatus.BAD_REQUEST.value(), "Exception", errors);
     }
 }

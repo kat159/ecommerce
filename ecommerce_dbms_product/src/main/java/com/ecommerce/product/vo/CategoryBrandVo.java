@@ -14,15 +14,10 @@ public class CategoryBrandVo extends BaseVo<CategoryBrandVo>
         implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "")
     private Long id;
-    @ApiModelProperty(value = "brand id")
     private Long brandId;
-    @ApiModelProperty(value = "category id")
     private Long categoryId;
-    @ApiModelProperty(value = "")
     private String brandName;
-    @ApiModelProperty(value = "")
     private String categoryName;
 
 }

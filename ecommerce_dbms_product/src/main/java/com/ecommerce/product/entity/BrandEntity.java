@@ -1,7 +1,6 @@
 package com.ecommerce.product.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
@@ -12,30 +11,31 @@ public class BrandEntity extends BaseEntity<BrandEntity> {
     /**
      * brand ID
      */
-		@TableId
-		private Long id;
+    @TableId
+    private Long id;
     /**
      * brand name
      */
-		private String name;
+    private String name;
     /**
      * brand logo address
      */
-		private String logo;
+    private String logo;
     /**
      * introduction
      */
-		private String description;
+    private String description;
     /**
      * for soft delete[0-deleted; 1-non-deleted]
      */
-		private Integer nonDeleted;
+    @TableLogic
+    private Integer nonDeleted;
     /**
      * search first letter
      */
-		private String firstLetter;
+    private String firstLetter;
     /**
      * sort order
      */
-		private Integer sort;
+    private Integer sort;
 }

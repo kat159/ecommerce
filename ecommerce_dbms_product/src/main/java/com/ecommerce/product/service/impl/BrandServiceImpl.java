@@ -48,7 +48,6 @@ public class BrandServiceImpl
     private ProductService productService;
     @Autowired
     private CategoryBrandService categoryBrandService;
-
     @Override
     public List<CategoryBrandEntity> getAllCategoryBrand(Long brandId) {
         List<CategoryBrandEntity> categoryBrandList = categoryBrandDao.selectByBrandId(brandId);
@@ -67,7 +66,6 @@ public class BrandServiceImpl
         
         return categoryBrandList;
     }
-
     @Override
     public List<Long> addCategoryBrand(Long brandId, Long categoryId) {
         CategoryBrandDto dto = new CategoryBrandDto();
@@ -84,7 +82,6 @@ public class BrandServiceImpl
             this.categoryId = categoryId;
         }
     }
-
     @Override
     public PageData<BrandVo> page(BrandPaginationDto params) {
         QueryWrapper<BrandEntity> queryWrapper = new QueryWrapper<>();
@@ -109,7 +106,6 @@ public class BrandServiceImpl
         });
         return voList;
     }
-
     @Override
     public List<ProductVo> getAllProduct(Long brandId) {
         List<ProductEntity> productEntities = productDao.selectByBrandId(brandId);

@@ -26,8 +26,8 @@ public class ProductImageDto extends BaseDto<ProductImageDto>
 	@ApiModelProperty(value = "image url")
 	private String url;
 
-	@ApiModelProperty(value = "assume List[img1, img2, img3], display_order=index")
-	private Integer displayOrder;
+	@ApiModelProperty(value = "sort order")
+	private Integer sort;
 
 	@ApiModelProperty(value = "whether it is default image")
 	private Integer isDefault;

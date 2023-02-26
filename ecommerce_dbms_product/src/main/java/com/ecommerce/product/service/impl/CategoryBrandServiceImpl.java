@@ -6,7 +6,10 @@ import com.ecommerce.product.dto.CategoryBrandDto;
 import com.ecommerce.product.entity.CategoryBrandEntity;
 import com.ecommerce.product.service.CategoryBrandService;
 import com.ecommerce.product.vo.CategoryBrandVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service

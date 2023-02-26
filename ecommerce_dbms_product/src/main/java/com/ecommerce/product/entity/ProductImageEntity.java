@@ -12,26 +12,26 @@ public class ProductImageEntity extends BaseEntity<ProductImageEntity> {
     /**
      * id
      */
-		@TableId
-		private Long id;
+    @TableId
+    private Long id;
     /**
      * product id
      */
-		private Long productId;
+    private Long productId;
     /**
      * image name
      */
-		private String name;
+    private String name;
     /**
      * image url
      */
-		private String url;
+    private String url;
     /**
-     * assume List[img1, img2, img3], display_order=index
+     * sort order
      */
-		private Integer displayOrder;
+    private Integer sort;
     /**
      * whether it is default image
      */
-		private Integer isDefault;
+    private Integer isDefault;
 }

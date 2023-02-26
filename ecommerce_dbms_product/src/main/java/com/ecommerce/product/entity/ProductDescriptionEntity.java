@@ -10,7 +10,7 @@ import lombok.Data;
 public class ProductDescriptionEntity extends BaseEntity<ProductDescriptionEntity> {
 
     /**
-     * product id, One-to-one relationship with product table
+     * product id
      */
     @TableId
     private Long productId;
@@ -19,7 +19,9 @@ public class ProductDescriptionEntity extends BaseEntity<ProductDescriptionEntit
      */
     private String description;
 
-	public Long getId() {
-		return productId;
-	}
+
+    @Override
+    public Long getId() {
+        return productId;
+    }
 }

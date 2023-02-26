@@ -1,13 +1,11 @@
 package com.ecommerce.product.controller;
 
-import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.utils.Result;
 import com.ecommerce.product.dto.BrandDto;
 import com.ecommerce.product.dto.ProductDto;
 import com.ecommerce.product.dto.pagination.BrandPaginationDto;
 import com.ecommerce.product.entity.CategoryBrandEntity;
-import com.ecommerce.product.entity.ProductEntity;
 import com.ecommerce.product.service.BrandService;
 import com.ecommerce.product.vo.BrandVo;
 import com.ecommerce.product.vo.ProductVo;

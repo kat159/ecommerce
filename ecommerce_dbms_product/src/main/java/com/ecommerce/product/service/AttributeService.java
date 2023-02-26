@@ -12,4 +12,7 @@ import java.util.List;
 public interface AttributeService extends CrudService<AttributeEntity, AttributeDto, AttributeVo> {
 
     List<AttributeVo> getAllByAttributeGroupId(Long id, PaginationDto paginationDto);
+    @Override
+    void removeAll(List<Long> idList);
+    void removeAllByAttributeGroupId(List<Long> idList);
 }

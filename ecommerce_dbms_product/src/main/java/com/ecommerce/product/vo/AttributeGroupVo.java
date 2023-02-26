@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -17,13 +18,11 @@ public class AttributeGroupVo extends BaseVo<AttributeGroupVo> implements Serial
     private Long id;
     // @ApiModelProperty(value = "category it belongs to")
     // private Long categoryId;
-    @ApiModelProperty(value = "group name")
     private String name;
     @ApiModelProperty(value = "sort order")
     private Integer sort;
-    @ApiModelProperty(value = "description")
     private String description;
-    @ApiModelProperty(value = "group icon")
     private String icon;
-
+    @ApiModelProperty(value = "attributes belong to this category")
+    private List<AttributeVo> attributes;
 }

@@ -109,6 +109,9 @@ public abstract class CrudServiceImpl<
 
     @Override
     public void removeAll(List<Long> idList) {
+        if (idList == null || idList.size() == 0) {
+            return;
+        }
         baseDao.deleteBatchIds(idList);
     }
 
@@ -128,6 +131,7 @@ public abstract class CrudServiceImpl<
     @Override
     public <P extends PaginationDto> List<VoT> getAll() {
         List<EntityT> entityList = baseDao.selectList(null);
+        entityList = entityList == null ? new ArrayList<>() : entityList;
         return entityToVo(entityList);
 
     }
@@ -135,6 +139,7 @@ public abstract class CrudServiceImpl<
     @Override
     public <P extends PaginationDto> List<VoT> getAll(QueryWrapper<EntityT> queryWrapper) {
         List<EntityT> entityList = baseDao.selectList(queryWrapper);
+        entityList = entityList == null ? new ArrayList<>() : entityList;
         return entityToVo(entityList);
     }
 

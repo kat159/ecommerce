@@ -15,10 +15,6 @@ public class SkuImageEntity extends BaseEntity<SkuImageEntity> {
 		@TableId
 		private Long id;
     /**
-     * sku id
-     */
-		private Long skuId;
-    /**
      * image url
      */
 		private String img;

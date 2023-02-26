@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -15,11 +16,8 @@ public class ProductVo extends BaseVo<ProductVo>
         implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "product id")
     private Long id;
-    @ApiModelProperty(value = "category id")
     private Long categoryId;
-    @ApiModelProperty(value = "brand id")
     private Long brandId;
     @ApiModelProperty(value = "product name")
     private String name;
@@ -27,9 +25,12 @@ public class ProductVo extends BaseVo<ProductVo>
     private String description;
     @ApiModelProperty(value = "publish status [0 - not published, 1 - published]")
     private Integer publishStatus;
-    @ApiModelProperty(value = "")
-    private Date createTime;
-    @ApiModelProperty(value = "")
-    private Date updateTime;
+    private String brandName;
+    private String categoryName;
+    private List<ProductImageVo> images;
+    private List<AttributeGroupVo> attributeGroups;
+    private List<ProductAttrbuteValueVo> productAttributeValues;
+    private List<SkuImageVo> skuImages;
+    private List<SkuVo> skus;
 
 }

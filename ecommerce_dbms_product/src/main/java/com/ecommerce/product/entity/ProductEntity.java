@@ -14,34 +14,35 @@ public class ProductEntity extends BaseEntity<ProductEntity> {
     /**
      * product id
      */
-		@TableId
-		private Long id;
+    @TableId
+    private Long id;
     /**
      * category id
      */
-		private Long categoryId;
+    private Long categoryId;
     /**
      * brand id
      */
-		private Long brandId;
+    private Long brandId;
     /**
      * product name
      */
-		private String name;
+    private String name;
     /**
      * product description
      */
-		private String description;
+    private String description;
     /**
      * publish status [0 - not published, 1 - published]
      */
-		private Integer publishStatus;
+    private Integer publishStatus;
     /**
-     * 
+     *
      */
-		private Date createTime;
+    private Date createTime;
     /**
-     * 
+     *
      */
-		private Date updateTime;
+    private Date updateTime;
+
 }

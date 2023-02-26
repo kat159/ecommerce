@@ -14,13 +14,10 @@ public class CategoryVo extends BaseVo<CategoryVo>
         implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "category id")
     private Long id;
-    @ApiModelProperty(value = "category name")
     private String name;
-    @ApiModelProperty(value = "parent category id")
     private Long parentId;
-    @ApiModelProperty(value = "level")
+    @ApiModelProperty(value = "category tree level")
     private Integer level;
     @ApiModelProperty(value = "for soft delete[0-deleted; 1-non-deleted]")
     private Integer nonDeleted;

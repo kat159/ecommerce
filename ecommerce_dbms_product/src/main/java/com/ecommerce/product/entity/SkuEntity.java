@@ -14,46 +14,19 @@ public class SkuEntity extends BaseEntity<SkuEntity> {
     /**
      * sku id
      */
-		@TableId
-		private Long id;
-    /**
-     * product id
-     */
-		private Long productId;
-    /**
-     * category id
-     */
-		private Long categoryId;
-    /**
-     * brand id
-     */
-		private Long brandId;
-    /**
-     * sku name
-     */
-		private String name;
-    /**
-     * sku description
-     */
-		private String description;
-    /**
-     * default image
-     */
-		private String defaultImg;
-    /**
-     * title
-     */
-		private String title;
-    /**
-     * subtitle
-     */
-		private String subtitle;
-    /**
-     * price
-     */
-		private BigDecimal price;
-    /**
-     * sales count
-     */
-		private Long saleCount;
+    @TableId
+    private Long id;
+    private Long productId;
+    private String name;
+    private String description;
+    private String defaultImg;
+    private String title;
+    private String subtitle;
+    private BigDecimal price;
+    private Long saleCount;
+    private BigDecimal primeDiscount;
+    private BigDecimal giftCardBonus;
+    private Long stock;
+    private BigDecimal rating;
+    private Integer status;
 }

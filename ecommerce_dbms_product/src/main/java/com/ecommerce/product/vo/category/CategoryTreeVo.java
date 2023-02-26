@@ -14,15 +14,11 @@ import java.util.List;
 public class CategoryTreeVo extends TreeVo<CategoryTreeVo> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "category id")
     private Long id;
-    @ApiModelProperty(value = "category name")
     private String name;
-    @ApiModelProperty(value = "parent category id")
     private Long parentId;
-    @ApiModelProperty(value = "sort order")
+    private Integer level;
     private Integer sort;
-    @ApiModelProperty(value = "icon address")
     private String icon;
     @ApiModelProperty(value = "Subcategories")
     private List<CategoryTreeVo> children;
@@ -30,7 +26,6 @@ public class CategoryTreeVo extends TreeVo<CategoryTreeVo> implements Serializab
     public List<CategoryTreeVo> getChildren() {
         return children;
     }
-
     @Override
     public void setChildren(List<CategoryTreeVo> children) {
         this.children = children;

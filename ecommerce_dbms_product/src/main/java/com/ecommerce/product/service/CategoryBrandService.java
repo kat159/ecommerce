@@ -7,5 +7,4 @@ import com.ecommerce.product.vo.CategoryBrandVo;
 
 
 public interface CategoryBrandService extends CrudService<CategoryBrandEntity, CategoryBrandDto, CategoryBrandVo> {
-
 }

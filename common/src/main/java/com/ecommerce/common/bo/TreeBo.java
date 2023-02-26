@@ -3,16 +3,8 @@ package com.ecommerce.common.bo;
 import java.util.List;
 
 public abstract class TreeBo<InheritorT> {
-    /**
-     * 获取父节点ID
-     */
     public abstract Long getParentId();
-
-    /**
-     * 获取节点ID
-     */
     public abstract Long getId();
-
     /**
      * add a child into the children list
      */

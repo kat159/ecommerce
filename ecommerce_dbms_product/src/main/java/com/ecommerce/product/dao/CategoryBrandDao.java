@@ -1,5 +1,6 @@
 package com.ecommerce.product.dao;
 
+import com.ecommerce.common.bo.TreeBo;
 import com.ecommerce.common.dao.BaseDao;
 import com.ecommerce.product.entity.CategoryBrandEntity;
 import org.apache.ibatis.annotations.Delete;
@@ -18,4 +19,6 @@ public interface CategoryBrandDao extends BaseDao<CategoryBrandEntity> {
     @Select("select * from category_brand where brand_id = #{brandId}")
     List<CategoryBrandEntity> selectByBrandId(Long brandId);
 
+    @Select("select * from category_brand where category_id = #{categoryId} and brand_id = #{brandId}")
+    List<CategoryBrandEntity> selectByCategoryAndBrand(Long categoryId, Long brandId);
 }

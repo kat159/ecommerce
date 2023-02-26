@@ -25,6 +25,13 @@ public class AttributeGroupServiceImpl
     @Autowired
     AttributeService attributeService;
 
+    @Override
+    public void removeAll(List<Long> idList) {
+        // 1. remove all attr groups
+        super.removeAll(idList);
+        // 2. remove related attrs
+        attributeService.removeAllByAttributeGroupId(idList);
+    }
 
     /**
      * Relational: Many to One Category

@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,4 +29,20 @@ public class PaginationDto implements Serializable {
      * orderTypes: asc or desc
      */
     private List<String> orderTypes;
+    /**
+     * names of fields to include
+     */
+    private List<String> include;
+
+    public List<String> getOrderFields() {
+        return orderFields == null ? new ArrayList<>() : orderFields;
+    }
+
+    public List<String> getOrderTypes() {
+        return orderTypes == null ? new ArrayList<>() : orderTypes;
+    }
+
+    public List<String> getInclude() {
+        return include == null ? new ArrayList<>() : include;
+    }
 }

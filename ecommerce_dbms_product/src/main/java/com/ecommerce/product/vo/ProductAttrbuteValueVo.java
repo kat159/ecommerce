@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -14,19 +15,23 @@ public class ProductAttrbuteValueVo extends BaseVo<ProductAttrbuteValueVo>
         implements Serializable {
     private static final long serialVersionUID = 1L;
 
-            @ApiModelProperty(value = "id")
-        private Long id;
-            @ApiModelProperty(value = "product id")
-        private Long productId;
-            @ApiModelProperty(value = "attribute id")
-        private Long attributeId;
-            @ApiModelProperty(value = "attribute name")
-        private String attributeName;
-            @ApiModelProperty(value = "attribute value")
-        private String attributeValue;
-            @ApiModelProperty(value = "sort order")
-        private Integer attributeSort;
-            @ApiModelProperty(value = "[whether to display on introduction; 0-no 1-yes]")
-        private Integer display;
-    
+    private Long id;
+    private Long productId;
+    private Long attributeId;
+    @ApiModelProperty(value = "attribute value list， separated by Constant.separator")
+    private String attributeValue;
+    @ApiModelProperty(value = "attribute value list, split ")
+    private String[] attributeValueList;
+    @ApiModelProperty(value = "sort order")
+    private Integer attributeSort;
+    @ApiModelProperty(value = "[whether to display on introduction; 0-no 1-yes]")
+    private Integer display;
+    /**
+     * additional field from attribute table
+     */
+    private String attributeName;
+    /**
+     * additional field from attribute table
+     */
+    private Integer attributeType;
 }

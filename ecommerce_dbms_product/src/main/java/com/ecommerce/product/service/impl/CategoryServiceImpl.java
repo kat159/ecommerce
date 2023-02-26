@@ -18,8 +18,10 @@ import com.ecommerce.product.entity.AttributeEntity;
 import com.ecommerce.product.entity.AttributeGroupEntity;
 import com.ecommerce.product.entity.CategoryEntity;
 import com.ecommerce.product.service.AttributeGroupService;
+import com.ecommerce.product.service.AttributeService;
 import com.ecommerce.product.service.CategoryService;
 import com.ecommerce.product.vo.AttributeGroupVo;
+import com.ecommerce.product.vo.AttributeVo;
 import com.ecommerce.product.vo.CategoryTreeVo;
 import com.ecommerce.product.vo.CategoryVo;
 import com.ecommerce.product.vo.category.AttrGroupWithAttrVo;
@@ -42,6 +44,8 @@ public class CategoryServiceImpl
 
     @Autowired
     private AttributeGroupService attributeGroupService;
+    @Autowired
+    private AttributeService attributeService;
     @Autowired
     private AttributeGroupDao attributeGroupDao;
     @Autowired
@@ -108,7 +112,15 @@ public class CategoryServiceImpl
 
     @Override
     public List<AttributeGroupVo> getAllAttrGroups(Long categoryId, PaginationDto paginationDto) {
-        return attributeGroupService.getAllByCategoryId(categoryId, paginationDto);
+        List<AttributeGroupVo> attrGroupVos = attributeGroupService.getAllByCategoryId(categoryId, null);
+        List<String> includes = paginationDto.getInclude();
+        if (includes != null && includes.contains("attr")) {
+            for (AttributeGroupVo attrGroupVo : attrGroupVos) {
+                List<AttributeVo> attrVos = attributeService.getAllByAttributeGroupId(attrGroupVo.getId(), null);
+                attrGroupVo.setAttributes(attrVos);
+            }
+        }
+        return attrGroupVos;
     }
 
     @Override
