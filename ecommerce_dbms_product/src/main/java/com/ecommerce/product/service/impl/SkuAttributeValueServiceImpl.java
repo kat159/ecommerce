@@ -4,8 +4,11 @@ import com.ecommerce.common.service.impl.CrudServiceImpl;
 import com.ecommerce.common.utils.ConvertUtils;
 import com.ecommerce.product.dao.SkuAttributeValueDao;
 import com.ecommerce.product.dto.SkuAttributeValueDto;
+import com.ecommerce.product.entity.AttributeEntity;
 import com.ecommerce.product.entity.SkuAttributeValueEntity;
+import com.ecommerce.product.service.AttributeService;
 import com.ecommerce.product.service.SkuAttributeValueService;
+import com.ecommerce.product.vo.AttributeVo;
 import com.ecommerce.product.vo.SkuAttributeValueVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +23,11 @@ public class SkuAttributeValueServiceImpl
         implements SkuAttributeValueService {
     @Autowired
     private SkuAttributeValueDao skuAttributeValueDao;
-
     @Override
     public List<SkuAttributeValueVo> getAllBySkuId(Long id) {
         List<SkuAttributeValueEntity> skuAttributeValueEntities = skuAttributeValueDao.getAllBySkuId(id);
         skuAttributeValueEntities = skuAttributeValueEntities == null ? new ArrayList<>() : skuAttributeValueEntities;
+
         return ConvertUtils.sourceToTarget(skuAttributeValueEntities, SkuAttributeValueVo.class);
     }
 

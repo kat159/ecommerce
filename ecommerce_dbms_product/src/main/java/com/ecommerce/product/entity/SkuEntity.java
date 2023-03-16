@@ -27,6 +27,8 @@ public class SkuEntity extends BaseEntity<SkuEntity> {
     private BigDecimal primeDiscount;
     private BigDecimal giftCardBonus;
     private Long stock;
+    private BigDecimal finalPrice;
     private BigDecimal rating;
     private Integer status;
+
 }

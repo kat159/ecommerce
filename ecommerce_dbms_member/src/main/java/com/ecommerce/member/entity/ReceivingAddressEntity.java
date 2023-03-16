@@ -2,47 +2,29 @@ package com.ecommerce.member.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 @Data
 @TableName("receiving_address")
-public class ReceivingAddressEntity {
+public class ReceivingAddressEntity extends BaseEntity<ReceivingAddressEntity> {
 
-    /**
-     * ID
-     */
-		@TableId
-		private Long id;
-    /**
-     * Member ID
-     */
-		private Long memberId;
-    /**
-     * Receiver Name
-     */
-		private String name;
-    /**
-     * Tele number
-     */
-		private String tele;
-    /**
-     * Postal Code
-     */
-		private String postcode;
-    /**
-     * Province/Metropolis
-     */
-		private String province;
-    /**
-     * City
-     */
-		private String city;
-    /**
-     * Region
-     */
-		private String region;
-    /**
-     * Detail address(street)
-     */
-		private String address;
+    @TableId
+    private Long id;
+    private Long memberId;
+    private String name;
+    private String tele;
+    private String postcode;
+    private String province;
+    private String region;
+    private String address;
+	private Long priority;
+    private Long countryId;
+    private Long stateId;
+    private Long cityId;
+    private String country;
+    private String state;
+    private String city;
+    private String countryCode;
+    private String stateCode;
 }

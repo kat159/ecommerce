@@ -2,85 +2,28 @@ package com.ecommerce.member.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 @TableName("member")
-public class MemberEntity {
-
-    /**
-     * ID
-     */
-		@TableId
-		private Long id;
-    /**
-     * Member level ID
-     */
-		private Long levelId;
-    /**
-     * Username
-     */
-		private String username;
-    /**
-     * Password
-     */
-		private String password;
-    /**
-     * Nickname
-     */
-		private String nickname;
-    /**
-     * tele number
-     */
-		private String tele;
-    /**
-     * Email
-     */
-		private String email;
-    /**
-     * Avatar
-     */
-		private String avatar;
-    /**
-     * Gender
-     */
-		private Integer gender;
-    /**
-     * Birthday
-     */
-		private Date birth;
-    /**
-     * City
-     */
-		private String city;
-    /**
-     * Occupation
-     */
-		private String job;
-    /**
-     * bio
-     */
-		private String bio;
-    /**
-     * How the user know us
-     */
-		private Integer referSource;
-    /**
-     * membership_point
-     */
-		private Integer membershipPoint;
-    /**
-     * reward_point
-     */
-		private Integer rewardPoint;
-    /**
-     * Status
-     */
-		private Integer status;
-    /**
-     * Registration date
-     */
-		private Date registrationDate;
+public class MemberEntity extends BaseEntity<MemberEntity> {
+    @TableId
+    private Long id;
+    private Long membershipTypeId;
+    private String username;
+    private String password;
+    private String nickname;
+    private String tele;
+    private String email;
+    private String avatar;
+    private Integer gender;
+    private Date birth;
+    private Integer status;
+    private Date registrationDate;
+    private Long countryId;
+    private Long stateId;
+    private Long cityId;
 }

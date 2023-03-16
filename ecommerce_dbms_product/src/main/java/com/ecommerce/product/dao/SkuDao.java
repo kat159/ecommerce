@@ -5,6 +5,7 @@ import com.ecommerce.common.dao.BaseDao;
 import com.ecommerce.product.entity.SkuEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -49,4 +50,10 @@ public interface SkuDao extends BaseDao<SkuEntity> {
         List<SkuEntity> skuEntities = selectList(wrapper);
         return skuEntities == null ? new ArrayList<>() : skuEntities.stream().map(SkuEntity::getId).collect(Collectors.toList());
     }
+
+    @Update("UPDATE sku SET stock = stock - #{quantity} WHERE id = #{skuId} AND stock >= #{quantity}")
+    Integer deductInventory(Long skuId, Long quantity);
+
+    @Update("UPDATE sku SET stock = stock + #{quantity} WHERE id = #{skuId}")
+    void addInventory(Long skuId, Long quantity);
 }

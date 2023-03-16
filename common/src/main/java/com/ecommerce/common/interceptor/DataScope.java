@@ -1,10 +1,7 @@
 
 package com.ecommerce.common.interceptor;
 
-/**
- * 数据范围
- *
- */
+
 public class DataScope {
     private String sqlFilter;
 

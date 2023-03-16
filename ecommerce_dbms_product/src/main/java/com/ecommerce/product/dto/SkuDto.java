@@ -29,4 +29,5 @@ public class SkuDto extends BaseDto<SkuDto>
 	private Long stock;
 	private BigDecimal rating;
 	private Integer status;
+	private BigDecimal finalPrice;
 }

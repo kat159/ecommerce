@@ -504,7 +504,7 @@ public class ProductServiceImpl
             return new PageData<>(new ArrayList<>(), 1, params.getPageSize(), 0);
         }
         // 4. page & sort skus
-        Set<String> validSortFields = new HashSet<>(List.of("price"));
+        Set<String> validSortFields = new HashSet<>(List.of("final_price"));
         Set<String> validSortOrders = new HashSet<>(List.of(Constant.ASC, Constant.DESC));
         List<String> sortFields = params.getOrderFields();
         List<String> sortOrders = params.getOrderTypes();
@@ -567,8 +567,8 @@ public class ProductServiceImpl
         }
         QueryWrapper<SkuEntity> wrapper = new QueryWrapper<>();
         wrapper.in("product_id", productIdList);
-        wrapper.ge(minPrice != null, "price", minPrice);
-        wrapper.le(maxPrice != null, "price", maxPrice);
+        wrapper.ge(minPrice != null, "final_price", minPrice);
+        wrapper.le(maxPrice != null, "final_price", maxPrice);
         wrapper.select("id");
         List<SkuEntity> skuEntities = skuDao.selectList(wrapper);
         if (skuEntities == null || skuEntities.isEmpty()) {

@@ -1,6 +1,7 @@
 package com.ecommerce.product.exception_handler;
 
 
+import com.ecommerce.common.exception.MyBusinessException;
 import com.ecommerce.common.utils.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,7 +17,6 @@ import java.util.Map;
 // @ControllerAdvice
 @RestControllerAdvice  // NOTE: **必须是@RestControllerAdvice，否则就要在买个controller上面加@ResponseBody， RestControllerAdvice = ControllerAdvice + ResponseBody
 public class ExceptionController {
-
     // field validation error handler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
@@ -40,23 +40,30 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public Result handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-
+        System.out.println("e: " + e);
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
         errors.put("HttpMessageNotReadableException", errorMessage);
         return new Result().error(HttpStatus.BAD_REQUEST.value(), "HttpMessageNotReadableException", errors);
     }
 
+    @ExceptionHandler(MyBusinessException.class)
+    public Result handleMyBusinessException(MyBusinessException e) {
+        System.out.println("product 捕获到业务异常: " + e);
+        return new Result().error(e);
+    }
+
     // catch all other exceptions
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {Throwable.class})
     public Result handleException(Throwable e) {
-        
+        System.out.println("product 捕获到异常: " + e);
         String errorMessage = e.getMessage();
         Map<String, String> errors = new HashMap<>();
         errors.put("Exception", e.getMessage());
-        errors.put("localizedMessage", e.getLocalizedMessage());
-        errors.put("stackTrace", Arrays.toString(e.getStackTrace()));
+        // errors.put("localizedMessage", e.getLocalizedMessage());
+        System.out.println("Exception: " + e.getMessage());
+        // errors.put("stackTrace", Arrays.toString(e.getStackTrace()));
         return new Result().error(HttpStatus.BAD_REQUEST.value(), "Exception", errors);
     }
 }

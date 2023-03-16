@@ -3,6 +3,7 @@
 package com.ecommerce.common.utils;
 
 import com.ecommerce.common.exception.ErrorCode;
+import com.ecommerce.common.exception.MyBusinessException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,34 +11,15 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 响应数据
- */
-@ApiModel(value = "响应")
-public class Result implements Serializable {
+public class Result<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    /**
-     * to be compatible with antd-pro
-     */
     private boolean success = true;
-    /**
-     * 编码：0表示成功，其他值表示失败
-     */
-    @ApiModelProperty(value = "编码：0表示成功，其他值表示失败")
     private int code = 0;
-    /**
-     * 消息内容
-     */
-    @ApiModelProperty(value = "消息内容")
     private String msg = "success";
-    /**
-     * 响应数据
-     */
-    @ApiModelProperty(value = "响应数据")
-    private Object data;
+    private T data;
 
-    public Result ok(Object data) {
+    public Result<T> ok(T data) {
         this.setData(data);
         return this;
     }
@@ -46,28 +28,35 @@ public class Result implements Serializable {
         return code == 0;
     }
 
-    public Result error() {
+    public Result<T> error() {
         this.code = ErrorCode.INTERNAL_SERVER_ERROR;
         this.msg = MessageUtils.getMessage(this.code);
         this.success = false;
         return this;
     }
 
-    public Result error(int code) {
+    public Result<T> error(int code) {
         this.code = code;
         this.msg = MessageUtils.getMessage(this.code);
         this.success = false;
         return this;
     }
 
-    public Result error(int code, String msg) {
+    public Result<T> error(MyBusinessException e) {
+        this.code = Integer.parseInt(e.getErrorCode());
+        this.msg = e.getMessage();
+        this.success = false;
+        return this;
+    }
+
+    public Result<T> error(int code, String msg) {
         this.code = code;
         this.msg = msg;
         this.success = false;
         return this;
     }
 
-    public Result error(int code, String msg, Object data) {
+    public Result<T> error(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -75,7 +64,7 @@ public class Result implements Serializable {
         return this;
     }
 
-    public Result error(String msg) {
+    public Result<T> error(String msg) {
         this.code = ErrorCode.INTERNAL_SERVER_ERROR;
         this.msg = msg;
         this.success = false;
@@ -106,11 +95,11 @@ public class Result implements Serializable {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

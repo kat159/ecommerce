@@ -8,27 +8,29 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 分页工具类
- */
+
 @Data
-@ApiModel(value = "分页数据")
 public class PageData<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "总记录数")
+    @ApiModelProperty(value = "total records number")
     private long total;
 
-    @ApiModelProperty(value = "列表数据")
+    @ApiModelProperty(value = "record list")
     private List<T> list;
 
-    @ApiModelProperty(value = "当前页码")
+    @ApiModelProperty(value = "current page")
     private long current;
 
-    @ApiModelProperty(value = "每页记录数")
+    @ApiModelProperty(value = "size per page")
     private long pageSize;
+
+    public PageData() {
+        this.list = new ArrayList<>();
+    }
 
     public PageData(Page<T> page) {
         this.list = page.getRecords();

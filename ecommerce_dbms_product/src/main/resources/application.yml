@@ -10,7 +10,10 @@ spring:
         server-addr: 127.0.0.1:8848
   application:
     name: ecommerce-product-service
-
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -18,8 +21,8 @@ mybatis-plus:
       id-type: auto
       logic-delete-value: 0
       logic-not-delete-value: 1
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   port: 10000

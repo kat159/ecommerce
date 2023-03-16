@@ -2,13 +2,14 @@ package com.ecommerce.member.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ecommerce.common.entity.BaseEntity;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 @TableName("login_record")
-public class LoginRecordEntity {
+public class LoginRecordEntity extends BaseEntity<LoginRecordEntity> {
 
     /**
      * id

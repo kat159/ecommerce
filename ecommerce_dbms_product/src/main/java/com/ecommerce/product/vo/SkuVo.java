@@ -28,6 +28,7 @@ public class SkuVo extends BaseVo<SkuVo>
     private Long saleCount;
     private BigDecimal primeDiscount;
     private BigDecimal giftCardBonus;
+    private BigDecimal finalPrice;
     private Long stock;
     private BigDecimal rating;
     private List<SkuSkuImageVo> skuSkuImages;

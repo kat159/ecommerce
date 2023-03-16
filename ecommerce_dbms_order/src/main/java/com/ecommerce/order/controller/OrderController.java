@@ -1,67 +1,93 @@
 package com.ecommerce.order.controller;
 
-import com.ecommerce.common.constant.Constant;
-import com.ecommerce.common.page.PageData;
+import com.ecommerce.common.dto.PaginationDto;
+import com.ecommerce.common.dto.internal_dto.OrderSkuInternalDto;
 import com.ecommerce.common.utils.Result;
-import com.ecommerce.order.dto.OrderDto;
+import com.ecommerce.order.dto.OrderCheckoutDto;
+import com.ecommerce.order.dto.PlaceOrderDto;
+import com.ecommerce.order.entity.Order;
+import com.ecommerce.order.open_feign.ProductClient;
+import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import com.ecommerce.order.vo.OrderCheckoutVo;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("order/order")
-@Api(tags="order")
 public class OrderController {
     @Autowired
-    private OrderService orderService;
-
-    @GetMapping("page")
-    @ApiOperation("pagination")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = Constant.PAGE, value = "Current page, starting at 1", paramType = "query", required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.LIMIT, value = "Size per page", paramType = "query",required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "sort field", paramType = "query", dataType="String") ,
-        @ApiImplicitParam(name = Constant.ORDER, value = "sort order(asc、desc)", paramType = "query", dataType="String")
-    })
-    public Result page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<OrderDto> page = orderService.page(params);
-
-        return new Result().ok(page);
-    }
+    OrderService orderService;
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    ProductClient productClient;
 
     @GetMapping("{id}")
-    @ApiOperation("get")
-    public Result get(@PathVariable("id") Long id){
-        OrderDto data = orderService.get(id);
-        return new Result().ok(data);
+    public Result<Order> getOrder(@PathVariable Long id) {
+        return null;
+    }
+
+    @GetMapping("uuid/{uuid}")
+    public Result<Order> getOrderByUUID(@PathVariable String uuid) {
+        Order order = orderRepository.findByOrderUUID(uuid);
+        return new Result<Order>().ok(order);
+    }
+
+    @PostMapping("checkout")
+    public Result checkout(@RequestBody OrderCheckoutDto orderCheckoutDto) {
+        OrderCheckoutVo orderCheckoutVo = orderService.checkout(orderCheckoutDto);
+        return new Result().ok(orderCheckoutVo);
     }
 
     @PostMapping
-    @ApiOperation("save")
-    public Result save(@RequestBody OrderDto dto){
-        orderService.save(dto);
+    public Result placeOrder(@RequestBody PlaceOrderDto placeOrderDto) {
+        orderService.placeOrder(placeOrderDto);
         return new Result();
     }
 
-    @PutMapping
-    @ApiOperation("update")
-    public Result update(@RequestBody OrderDto dto){
-        orderService.update(dto);
-        return new Result();
+
+    @GetMapping("test")
+    public Result test() {
+        System.out.println("test");
+        // Object obj = productClient.test();
+        // System.out.println(obj);
+        // Result skus = productClient.getAll(new PaginationDto());
+        // System.out.println(skus);
+        Result res = productClient.test(new PaginationDto());
+        System.out.println(res);
+        return res;
+    }
+    @PostMapping("test")
+    public Result test2(PaginationDto paginationDto) {
+        Result res = productClient.test2(new PaginationDto());
+        System.out.println(res);
+        return res;
     }
 
-    @DeleteMapping
-    @ApiOperation("delete")
-    public Result delete(@RequestBody Long[] ids){
-        orderService.delete(ids);
-        return new Result();
+    @GetMapping("test3")
+    public Result test3(PaginationDto paginationDto) {
+        return new Result().ok(paginationDto);
+    }
+    @PostMapping("test3")
+    public Result test4(PaginationDto paginationDto) {
+        return new Result().ok(paginationDto);
+    }
+    @PutMapping("test3")
+    public Result test5() {
+        List<OrderSkuInternalDto> list = new ArrayList<>();
+        OrderSkuInternalDto dto = new OrderSkuInternalDto();
+        dto.setSkuId(1L);
+        list.add(dto);
+        return new Result().ok(productClient.deductInventory(list));
+        // return new Result().ok(productClient.test3(list));
     }
 }

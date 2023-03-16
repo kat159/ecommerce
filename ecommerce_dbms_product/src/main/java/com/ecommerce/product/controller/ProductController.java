@@ -25,6 +25,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // TODO: filter product by price after discount
     @GetMapping("detail/sku/{skuId}")
     public Result getDetailBySkuId(@PathVariable("skuId") Long skuId){
         ProductVo data = productService.getDetailBySkuId(skuId);

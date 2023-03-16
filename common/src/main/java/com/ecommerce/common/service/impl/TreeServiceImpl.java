@@ -30,7 +30,6 @@ public abstract class TreeServiceImpl <
     public List<VoT> getTree() {
         // get all records
         List<EntityT> entityList = baseDao.selectList(null);
-
         // convert record list to Bo
         List<BoT> boList = ConvertUtils.sourceToTarget(entityList, currentBoClass());
         // initialize the children list
@@ -47,9 +46,8 @@ public abstract class TreeServiceImpl <
 
     private List<BoT> buildTree(List<BoT> boList) {
         List<BoT> rootList = new ArrayList<>();
-        Map<Long, BoT> map = new HashMap<>();
+        Map<Long, BoT> map = new HashMap<>(); // id_to_Bo map
         for (BoT bo : boList) {
-            
             map.put(bo.getId(), bo);
         }
         for (BoT bo : boList) {
@@ -67,7 +65,7 @@ public abstract class TreeServiceImpl <
                 } else { // parent deleted
                     // do nothing, all the sub nodes of 'parent' will not be added to the tree
                     // throw new RuntimeException("parent not exists");
-                    // TODO: scheduling removing of nodes pointing to deleted parents
+                    // TODO: scheduled removing of nodes pointing to deleted parents
                 }
             }
         }

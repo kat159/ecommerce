@@ -20,9 +20,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import java.util.Map;
 
-/**
- * 数据过滤
- */
+
 public class DataFilterInterceptor implements InnerInterceptor {
 
     @Override

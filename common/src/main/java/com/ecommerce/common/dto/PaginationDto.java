@@ -30,9 +30,13 @@ public class PaginationDto implements Serializable {
      */
     private List<String> orderTypes;
     /**
-     * names of fields to include
+     * names of fields to include, retrieve all fields if null
      */
     private List<String> include;
+    /**
+     * where id in (ids)
+     */
+    private List<Long> ids;
 
     public List<String> getOrderFields() {
         return orderFields == null ? new ArrayList<>() : orderFields;
@@ -44,5 +48,9 @@ public class PaginationDto implements Serializable {
 
     public List<String> getInclude() {
         return include == null ? new ArrayList<>() : include;
+    }
+
+    public List<Long> getIds() {
+        return ids == null ? new ArrayList<>() : ids;
     }
 }

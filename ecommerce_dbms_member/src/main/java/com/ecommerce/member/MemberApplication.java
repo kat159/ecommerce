@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients(basePackages = "com.ecommerce.member.feign")
+// @EnableFeignClients(basePackages = "com.ecommerce.member.feign")
 @EnableDiscoveryClient
 @SpringBootApplication
 public class MemberApplication {
