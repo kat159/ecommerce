@@ -13,6 +13,7 @@ import com.ecommerce.product.dao.AttributeGroupDao;
 import com.ecommerce.product.dao.CategoryDao;
 import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
+import com.ecommerce.product.dto.aggregate.CategoryManageDto;
 import com.ecommerce.product.dto.pagination.CategoryPaginationDto;
 import com.ecommerce.product.entity.AttributeEntity;
 import com.ecommerce.product.entity.AttributeGroupEntity;
@@ -24,15 +25,15 @@ import com.ecommerce.product.vo.AttributeGroupVo;
 import com.ecommerce.product.vo.AttributeVo;
 import com.ecommerce.product.vo.CategoryTreeVo;
 import com.ecommerce.product.vo.CategoryVo;
+import com.ecommerce.product.vo.aggregate.CategoryManageVo;
 import com.ecommerce.product.vo.category.AttrGroupWithAttrVo;
 import com.mysql.cj.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -53,6 +54,7 @@ public class CategoryServiceImpl
 
     @Autowired
     private CategoryDao categoryDao;
+
     @Override
     public List<Long> addAll(List<CategoryDto> dtoList) {
         List<CategoryEntity> entityList = ConvertUtils.sourceToTarget(dtoList, CategoryEntity.class);
@@ -67,6 +69,7 @@ public class CategoryServiceImpl
         });
         return idList;
     }
+
     @Override
     public void removeAll(List<Long> idList) {
         for (Long id : idList) {
@@ -76,6 +79,7 @@ public class CategoryServiceImpl
             baseDao.deleteById(id);
         }
     }
+
     @Override
     public List<CategoryTreeVo> getForest() {
         return ServiceUtil.getForest(baseDao, CategoryTreeVo.class, CategoryTreeBo.class);
@@ -84,9 +88,9 @@ public class CategoryServiceImpl
     @Override
     public List<CategoryVo> getAll(CategoryPaginationDto paginationDto) {
         QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(paginationDto.getLevel() != null,"level", paginationDto.getLevel());
+        queryWrapper.eq(paginationDto.getLevel() != null, "level", paginationDto.getLevel());
         // search name prefix
-        queryWrapper.likeRight(!StringUtils.isNullOrEmpty(paginationDto.getName()),"name", paginationDto.getName());
+        queryWrapper.likeRight(!StringUtils.isNullOrEmpty(paginationDto.getName()), "name", paginationDto.getName());
         List<CategoryEntity> entityList = baseDao.selectList(queryWrapper);
         // delete invalid category
         for (CategoryEntity entity : entityList) {
@@ -166,5 +170,45 @@ public class CategoryServiceImpl
             attrGroupWithAttrVoList.add(attrGroupWithAttrVo);
         }
         return attrGroupWithAttrVoList;
+    }
+
+    @Override
+    public List<CategoryManageVo> getForestV2() {
+        List<CategoryEntity> allEntities = baseDao.selectList(null);
+        List<CategoryManageVo> nodes = ConvertUtils.sourceToTarget(allEntities, CategoryManageVo.class);
+        List<CategoryManageVo> roots = nodes.stream().filter(node -> node.getParentId() == 0).collect(Collectors.toList());
+        // 1. build tree
+        Map<Long, CategoryManageVo> nodeMap = nodes.stream().peek(
+                node -> node.setChildren(new ArrayList<>())).collect(Collectors.toMap(CategoryManageVo::getId, Function.identity())
+        );
+        nodes.forEach(node -> {
+            if (node.getParentId() != 0) {
+                CategoryManageVo parent = nodeMap.get(node.getParentId());
+                if (parent != null) {
+                    parent.getChildren().add(node);
+                } else {
+                    throw new RuntimeException("parent node not found, id: " + node.getParentId());
+                }
+            }
+        });
+        // 2. sort
+        nodes.forEach(node -> node.getChildren().sort((a, b) -> a.getSort() - b.getSort()));
+        // 3. get attribute groups
+        nodes.forEach(node -> {
+            List<AttributeGroupVo> attrGroups = attributeGroupService.getAllByCategoryId(node.getId(), null);
+            attrGroups.forEach(attrGroup -> {
+                List<AttributeVo> attributes = attributeService.getAllByAttributeGroupId(attrGroup.getId(), null);
+                attrGroup.setAttributes(attributes);
+            });
+            node.setAttributeGroups(attrGroups);
+        });
+        return roots;
+    }
+
+    @Override
+    public void updateAllV2(CategoryManageDto dto) {
+        List<CategoryManageVo> originalForest = dto.getOriginalForest();
+        List<CategoryManageVo> newForest = dto.getNewForest();
+
     }
 }

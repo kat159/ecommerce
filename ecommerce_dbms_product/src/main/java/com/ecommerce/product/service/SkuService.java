@@ -2,6 +2,7 @@ package com.ecommerce.product.service;
 
 import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.dto.internal_dto.OrderSkuInternalDto;
+import com.ecommerce.common.dto.internal_dto.SkuReviewInternalDto;
 import com.ecommerce.common.service.CrudService;
 import com.ecommerce.product.dto.SkuDto;
 import com.ecommerce.product.entity.SkuEntity;
@@ -31,4 +32,6 @@ public interface SkuService extends CrudService<SkuEntity, SkuDto, SkuVo> {
     @Override
     void updateAll(List<SkuDto> dtoList);
     void deductInventory(List<OrderSkuInternalDto> orderSkuList);
+
+    void review(SkuReviewInternalDto skuReviewInternalDto);
 }

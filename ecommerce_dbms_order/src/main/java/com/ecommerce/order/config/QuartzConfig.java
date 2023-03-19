@@ -1,18 +1,18 @@
-package com.ecommerce.product.config;
+package com.ecommerce.order.config;
 
 
-import com.ecommerce.product.quartz.StockDeductionConfirmJob;
+import com.ecommerce.order.quartz.RabbitMQMessageRetryJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class QuartzConfig {
-    private static final String STOCK_DEDUCTION_JOB_IDENTITY = "stockDeductionJob";
+    private static final String STOCK_DEDUCTION_JOB_IDENTITY = "MessageRetryJob";
 
     @Bean
     public JobDetail stockDeductionJobDetail() {
-        return JobBuilder.newJob(StockDeductionConfirmJob.class)
+        return JobBuilder.newJob(RabbitMQMessageRetryJob.class)
                 .withIdentity(STOCK_DEDUCTION_JOB_IDENTITY)
                 .storeDurably()
                 .build();

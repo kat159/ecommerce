@@ -16,9 +16,7 @@ public interface StockDeductionOfUnconfirmedOrderDao extends JpaRepository<Stock
 
     void deleteAllByOrderUUID(String orderUUID);
 
-    List<StockDeductionOfUnconfirmedOrder> getFirst1000Rows();
-
     void deleteByOrderUUID(String orderUUID);
 
-    StockDeductionOfUnconfirmedOrder findFirst();
+    StockDeductionOfUnconfirmedOrder findFirstByOrderByIdAsc();
 }

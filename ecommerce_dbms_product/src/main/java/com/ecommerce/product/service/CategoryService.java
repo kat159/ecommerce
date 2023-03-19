@@ -5,11 +5,13 @@ import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.service.CrudService;
 import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
+import com.ecommerce.product.dto.aggregate.CategoryManageDto;
 import com.ecommerce.product.dto.pagination.CategoryPaginationDto;
 import com.ecommerce.product.entity.CategoryEntity;
 import com.ecommerce.product.vo.AttributeGroupVo;
 import com.ecommerce.product.vo.CategoryTreeVo;
 import com.ecommerce.product.vo.CategoryVo;
+import com.ecommerce.product.vo.aggregate.CategoryManageVo;
 import com.ecommerce.product.vo.category.AttrGroupWithAttrVo;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,4 +32,8 @@ public interface CategoryService extends CrudService<CategoryEntity, CategoryDto
     List<Long> addAllAttrGroup(Long categoryId, List<AttributeGroupDto> attributeGroupDtoList);
 
     List<AttrGroupWithAttrVo> getAllAttrGroupWithAttrList(Long categoryId);
+
+    List<CategoryManageVo> getForestV2();
+
+    void updateAllV2(CategoryManageDto dto);
 }

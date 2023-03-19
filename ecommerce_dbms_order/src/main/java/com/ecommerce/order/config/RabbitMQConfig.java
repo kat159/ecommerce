@@ -31,13 +31,5 @@ public class RabbitMQConfig {
 
     public void initRabbitTemplate() {
 
-        rabbitTemplate.setConfirmCallback((correlationData,ack,cause) -> {
-            System.out.println("confirm...correlationData["+correlationData+"]==>ack:["+ack+"]==>cause:["+cause+"]");
-        });
-
-        rabbitTemplate.setReturnCallback((message,replyCode,replyText,exchange,routingKey) -> {
-            System.out.println("Fail Message["+message+"]==>replyCode["+replyCode+"]" +
-                    "==>replyText["+replyText+"]==>exchange["+exchange+"]==>routingKey["+routingKey+"]");
-        });
     }
 }

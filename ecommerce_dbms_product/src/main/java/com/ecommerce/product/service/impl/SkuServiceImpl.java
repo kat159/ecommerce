@@ -3,6 +3,7 @@ package com.ecommerce.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.dto.internal_dto.OrderSkuInternalDto;
+import com.ecommerce.common.dto.internal_dto.SkuReviewInternalDto;
 import com.ecommerce.common.exception.ErrorCodeEnum;
 import com.ecommerce.common.exception.MyBusinessException;
 import com.ecommerce.common.service.impl.CrudServiceImpl;
@@ -81,6 +82,33 @@ public class SkuServiceImpl
     }
 
     @Override
+    public void review(SkuReviewInternalDto skuReviewInternalDto) {
+        Long skuId = skuReviewInternalDto.getSkuId();
+        BigDecimal rating = skuReviewInternalDto.getRating();
+        if (skuId == null || rating == null) {
+            throw new RuntimeException("skuId is null or rating is null");
+        }
+        SkuEntity skuEntity = baseDao.selectById(skuId);
+        if (skuEntity == null) {
+            throw new RuntimeException("skuId is not exist");
+        }
+        Long ratingCount = skuEntity.getRatingCount();
+        BigDecimal ratingSum = skuEntity.getRating();
+        if (ratingCount == null) {
+            ratingCount = 0L;
+        }
+        if (ratingSum == null) {
+            ratingSum = BigDecimal.ZERO;
+        }
+        ratingCount++;
+        ratingSum = ratingSum.add(rating);
+        BigDecimal newRating = ratingSum.divide(new BigDecimal(ratingCount), 1, RoundingMode.HALF_UP);
+        skuEntity.setRatingCount(ratingCount);
+        skuEntity.setRating(newRating);
+        baseDao.updateById(skuEntity);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void confirmInventoryDeduction(String orderUUID) {
         // receive orderUUID of confirmed created order from MQ, confirm the inventory deduction
@@ -90,7 +118,15 @@ public class SkuServiceImpl
             return;
         }
         System.out.println("confirm deduction list: " + list);
-        List<StockDeductionOfConfirmedOrder> list2 = ConvertUtils.sourceToTarget(list, StockDeductionOfConfirmedOrder.class);
+        List<StockDeductionOfConfirmedOrder> list2 = new ArrayList<>();
+        for (StockDeductionOfUnconfirmedOrder stockDeductionOfUnconfirmedOrder : list) {
+            StockDeductionOfConfirmedOrder stockDeductionOfConfirmedOrder = new StockDeductionOfConfirmedOrder();
+            stockDeductionOfConfirmedOrder.setSkuId(stockDeductionOfUnconfirmedOrder.getSkuId());
+            stockDeductionOfConfirmedOrder.setQuantity(stockDeductionOfUnconfirmedOrder.getQuantity());
+            stockDeductionOfConfirmedOrder.setOrderUUID(orderUUID);
+            list2.add(stockDeductionOfConfirmedOrder);
+        }
+        System.out.println("confirm deduction list2: " + list2);
         stockDeductionOfConfirmedOrderDao.saveAll(list2);
         stockDeductionOfUnconfirmedOrderDao.deleteAllByOrderUUID(orderUUID);
     }
@@ -99,9 +135,12 @@ public class SkuServiceImpl
     @Transactional(rollbackFor = Exception.class)
     public void scanAndRollbackInventoryDeduction() {
         LocalDateTime curTime = LocalDateTime.now();
-        long total = stockDeductionOfConfirmedOrderDao.count();
+        long total = stockDeductionOfUnconfirmedOrderDao.count();
         while (total-- > 0) {
-            StockDeductionOfUnconfirmedOrder stockDeductionOfUnconfirmedOrder = stockDeductionOfUnconfirmedOrderDao.findFirst();
+            StockDeductionOfUnconfirmedOrder stockDeductionOfUnconfirmedOrder = stockDeductionOfUnconfirmedOrderDao.findFirstByOrderByIdAsc();
+            if (stockDeductionOfUnconfirmedOrder == null) {
+                break;
+            }
             LocalDateTime createTime = stockDeductionOfUnconfirmedOrder.getCreateDate();
             long timeDifference = Duration.between(createTime, curTime).toMillis();
 

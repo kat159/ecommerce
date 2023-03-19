@@ -85,6 +85,7 @@ public class BrandServiceImpl
     @Override
     public PageData<BrandVo> page(BrandPaginationDto params) {
         QueryWrapper<BrandEntity> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.likeRight(!StringUtils.isNullOrEmpty(params.getName()),"name", params.getName());
         queryWrapper.orderByAsc("sort");
         PageData<BrandVo> voList = super.page(params, queryWrapper);

@@ -35,5 +35,6 @@ public class SkuVo extends BaseVo<SkuVo>
     private List<SkuAttributeValueVo> saleAttrValues;
     private List<SkuReviewVo> reviews;
     private List<SkuImageVo> skuImages;
+    private Long ratingCount;
     private Integer status;
 }

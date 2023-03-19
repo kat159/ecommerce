@@ -11,9 +11,6 @@ import java.math.BigDecimal;
 @TableName("sku")
 public class SkuEntity extends BaseEntity<SkuEntity> {
 
-    /**
-     * sku id
-     */
     @TableId
     private Long id;
     private Long productId;
@@ -30,5 +27,6 @@ public class SkuEntity extends BaseEntity<SkuEntity> {
     private BigDecimal finalPrice;
     private BigDecimal rating;
     private Integer status;
+    private Long ratingCount;
 
 }

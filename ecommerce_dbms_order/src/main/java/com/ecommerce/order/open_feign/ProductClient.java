@@ -4,6 +4,7 @@ package com.ecommerce.order.open_feign;
 import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.dto.internal_dto.OrderSkuInternalDto;
 import com.ecommerce.common.dto.internal_dto.SkuInternalDto;
+import com.ecommerce.common.dto.internal_dto.SkuReviewInternalDto;
 import com.ecommerce.common.utils.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @FeignClient(name = "ecommerce-product-service")
 public interface ProductClient {
-
+    @PostMapping("/product/sku/review")
+    void review(@RequestBody SkuReviewInternalDto skuReviewInternalDto);
     @GetMapping("/product/sku")
     Result<List<SkuInternalDto>> getAll(@RequestParam PaginationDto params); // **NOTE: @RequestParam is required for feign request
     @PutMapping("product/sku/inventory/deduct")

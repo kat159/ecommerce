@@ -59,7 +59,6 @@ public class ServiceUtil {
                 } else { // parent deleted
                     // do nothing, all the sub nodes of 'parent' will not be added to the tree
                     // throw new RuntimeException("parent not exists");
-                    // TODO: scheduling removing of nodes pointing to deleted parents
                 }
             }
         }

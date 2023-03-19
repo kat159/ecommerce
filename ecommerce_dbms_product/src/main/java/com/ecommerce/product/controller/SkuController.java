@@ -2,6 +2,7 @@ package com.ecommerce.product.controller;
 
 import com.ecommerce.common.dto.PaginationDto;
 import com.ecommerce.common.dto.internal_dto.OrderSkuInternalDto;
+import com.ecommerce.common.dto.internal_dto.SkuReviewInternalDto;
 import com.ecommerce.common.page.PageData;
 import com.ecommerce.common.utils.Result;
 import com.ecommerce.product.dto.SkuDto;
@@ -19,6 +20,12 @@ import java.util.List;
 public class SkuController {
     @Autowired
     private SkuService skuService;
+
+    @PostMapping("review")
+    public Result review(@RequestBody SkuReviewInternalDto skuReviewInternalDto) {
+        skuService.review(skuReviewInternalDto);
+        return new Result<>();
+    }
 
     @GetMapping("page")
     public Result page(@Valid PaginationDto params) {

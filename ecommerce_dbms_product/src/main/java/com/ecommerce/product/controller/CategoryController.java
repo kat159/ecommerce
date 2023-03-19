@@ -6,9 +6,11 @@ import com.ecommerce.common.utils.Result;
 import com.ecommerce.common.vo.AddResponseVo;
 import com.ecommerce.product.dto.AttributeGroupDto;
 import com.ecommerce.product.dto.CategoryDto;
+import com.ecommerce.product.dto.aggregate.CategoryManageDto;
 import com.ecommerce.product.dto.pagination.CategoryPaginationDto;
 import com.ecommerce.product.service.CategoryService;
 import com.ecommerce.product.vo.CategoryVo;
+import com.ecommerce.product.vo.aggregate.CategoryManageVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +72,15 @@ public class CategoryController {
     public Result forest() { // build category forest, return root node List
         return new Result().ok(categoryService.getForest());
     }
-
+    @GetMapping("manage/forest") // refactor, used by frontend page "src/pages/ProductManagement2/Category2.jsx"
+    public Result forestV2() {
+        return new Result().ok(categoryService.getForestV2());
+    }
+    @PutMapping("manage")
+    public Result updateAllV2(@RequestBody CategoryManageDto dto) {
+        categoryService.updateAllV2(dto);
+        return new Result();
+    }
     /**
      * Relational: One to Many <AttributeGroup>
      */

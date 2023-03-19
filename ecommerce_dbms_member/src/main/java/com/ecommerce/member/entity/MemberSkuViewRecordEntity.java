@@ -11,21 +11,12 @@ import java.util.Date;
 @TableName("member_sku_view_record")
 public class MemberSkuViewRecordEntity extends BaseEntity<MemberSkuViewRecordEntity> {
 
-    /**
-     * ID
-     */
 		@TableId
 		private Long id;
-    /**
-     * Member ID
-     */
+
 		private Long memberId;
-    /**
-     * Product ID
-     */
+
 		private Long skuId;
-    /**
-     * View date
-     */
+
 		private Date viewDate;
 }

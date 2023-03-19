@@ -1,21 +1,28 @@
 package com.ecommerce.order.dto;
 
+
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
-public class PlaceOrderDto implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class OrderDto {
+    private Long id;
+    // 1. Pending 2. not pending
+    private String uuid;
+    private Integer status;
+    private String transactionId;
+    private Integer isArchived;
+    private LocalDateTime createDate;
+    private String shippingCompany;
+    private String shippingTrackingNumber;
     private Long memberId;
-    private String username;
     private String orderUUID;
     private String paymentMethod;
     private String paymentCardNumber;
     private BigDecimal shippingFee;
-    private BigDecimal shippingTime; // seconds
+    private BigDecimal shippingTime;
     private String shippingName;
     private String shippingPhone;
     private String shippingPostcode;
@@ -26,5 +33,4 @@ public class PlaceOrderDto implements Serializable {
     private BigDecimal originalTotalPrice;
     private BigDecimal finalTotalPrice;
     private String note;
-    List<OrderSkuDto> skus;
 }

@@ -34,8 +34,8 @@ public class StockDeductionConfirmJob implements Job {
     private int count = 0;
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        // if size of messages in RabbitMQConstant.INVENTORY_DEDUCTION_CONFIRM_QUEUE is > 10000, do nothing
-        //    else,skuService.scanAndRollbackInventoryDeduction();
+
+        System.out.println("quartz job start");
         Integer queueSize = rabbitTemplate.execute(channel -> {
             try {
                 return channel.queueDeclarePassive(RabbitMQConstant.INVENTORY_DEDUCTION_CONFIRM_QUEUE).getMessageCount();

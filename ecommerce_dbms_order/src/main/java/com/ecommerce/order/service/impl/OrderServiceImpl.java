@@ -10,6 +10,7 @@ import com.ecommerce.order.dto.OrderSkuDto;
 import com.ecommerce.order.dto.PlaceOrderDto;
 import com.ecommerce.order.entity.Order;
 import com.ecommerce.order.entity.OrderSku;
+import com.ecommerce.order.mq_service.RabbitMQService;
 import com.ecommerce.order.open_feign.ProductClient;
 import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.repository.OrderSkuRepository;
@@ -37,12 +38,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderSkuRepository orderSkuRepository;
     @Autowired
     private ProductClient productClient;
+    @Autowired
+    private RabbitMQService rabbitMQService;
 
     Set<String> orderUUIDs = new HashSet<>(); // todo: use redis instead
 
     @Override
     public OrderCheckoutVo checkout(OrderCheckoutDto orderCheckoutDto) {
-        System.out.println("checkout: "+ orderUUIDs);
+        System.out.println("checkout: " + orderUUIDs);
         String orderUUID = UUID.randomUUID().toString();
         orderUUIDs.add(orderUUID);
         OrderCheckoutVo orderCheckoutVo = new OrderCheckoutVo();
@@ -99,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
         // process payment
         String transactionId = UUID.randomUUID().toString();
         // create order
+        /*
         Order order = new Order();
         order.setTransactionId(transactionId);
         BeanUtils.copyProperties(placeOrderDto, order);
@@ -112,22 +116,29 @@ public class OrderServiceImpl implements OrderService {
             orderSkuList.add(orderSku);
         }
         orderSkuRepository.saveAll(orderSkuList);
+         */
+        Order order = new Order();
+        order.setTransactionId(transactionId);
+        order.setStatus(Order.Status.PAYMENT_VERIFIED);  // todo: currently init as payment verified
+        BeanUtils.copyProperties(placeOrderDto, order);
 
-        rabbitTemplate.convertAndSend(
+        List<OrderSku> orderSkuList = new ArrayList<>();
+        for (OrderSkuDto orderSkuDto : placeOrderDto.getSkus()) {
+            OrderSku orderSku = new OrderSku();
+            BeanUtils.copyProperties(orderSkuDto, orderSku);
+            orderSku.setStatus(OrderSku.Status.DELIVERED); // todo: currently init as delivered
+            orderSku.setOrder(order);
+            orderSkuList.add(orderSku);
+        }
+        orderSkuRepository.saveAll(orderSkuList);
+
+        order.setOrderSkus(orderSkuList);
+        orderRepository.save(order);
+
+        rabbitMQService.send(
                 RabbitMQConstant.ORDER_SERVICE_TOPIC_EXCHANGE,
                 RabbitMQConstant.ORDER_CREATE_CONFIRM_ROUTING_KEY,
                 orderUUID);
-
-        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            if (ack) {
-                System.out.println("Message sent successfully");
-            } else {
-                System.out.println("Message sent failed");
-            }
-        });
-        rabbitTemplate.setReturnsCallback(returned -> {
-            System.out.println("Message returned");
-        });
     }
 
 }

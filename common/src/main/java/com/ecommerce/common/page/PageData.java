@@ -46,4 +46,10 @@ public class PageData<T> implements Serializable {
         this.total = (int) total;
     }
 
+    public PageData(org.springframework.data.domain.Page<T> page) {
+        this.list = page.getContent();
+        this.current = page.getNumber() + 1;
+        this.pageSize = page.getSize();
+        this.total = page.getTotalElements();
+    }
 }

@@ -145,6 +145,10 @@ public abstract class CrudServiceImpl<
 
     private <P extends PaginationDto> IPage<EntityT> getPageResult(P params, QueryWrapper<EntityT> queryWrapper) {
         IPage<EntityT> page;
+        if (params != null && params.getIds() != null && params.getIds().size() > 0) {
+            queryWrapper = queryWrapper == null ? new QueryWrapper<>() : queryWrapper;
+            queryWrapper.in("id", params.getIds());
+        }
         while (true) {
             page = baseDao.selectPage(getPageParams(params), queryWrapper);
             if (page.getRecords().size() > 0 || page.getCurrent() == 1 || page.getTotal() == 0) {
@@ -158,8 +162,8 @@ public abstract class CrudServiceImpl<
 
     private <P extends PaginationDto> IPage<EntityT> getPageParams(P params) {
         // Pagination parameters
-        long curPage = params.getCurrent() == null ? 1 : params.getCurrent();
-        long limit = params.getPageSize() == null ? 10 : params.getPageSize();
+        long curPage = params == null ? 1 : params.getCurrent() == null ? 1 : params.getCurrent();
+        long limit = params == null ? 1 : params.getPageSize() == null ? 10 : params.getPageSize();
 
         Page<EntityT> page = new Page<>(curPage, limit);
 

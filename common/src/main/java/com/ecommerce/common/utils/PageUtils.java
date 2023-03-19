@@ -2,9 +2,11 @@
 
 package com.ecommerce.common.utils;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-
+import com.ecommerce.common.dto.PaginationDto;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,75 +14,24 @@ import java.util.Map;
  * 分页工具类
  */
 public class PageUtils implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private int total;
-	private int pageSize;
-	private int totalPage;
-	private int current;
-	private List<?> list;
-	public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
-		this.list = list;
-		this.total = totalCount;
-		this.pageSize = pageSize;
-		this.current = currPage;
-		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
-	}
-	public PageUtils(IPage<?> page) {
-		this.list = page.getRecords();
-		this.total = (int)page.getTotal();
-		this.pageSize = (int)page.getSize();
-		this.current = (int)page.getCurrent();
-		this.totalPage = (int)page.getPages();
-	}
+	static public List<Order> getOrders(PaginationDto paginationDto) {
+		List<Order> orders = new ArrayList<>();
+		List<String> orderFields = paginationDto.getOrderFields();
+		List<String> orderTypes = paginationDto.getOrderTypes();
 
-	public static void fontEndToBackendFormat(Map<String, Object> params) {
-		if (params.containsKey("current")) {
-			params.put("curPage", params.get("current"));
+		for (int i = 0; i < orderFields.size(); i++) {
+			String field = orderFields.get(i);
+			Sort.Direction direction = Sort.Direction.ASC;
+			if (orderTypes.size() > i && orderTypes.get(i).equalsIgnoreCase("desc")) {
+				direction = Sort.Direction.DESC;
+			}
+			orders.add(new Order(direction, field));
 		}
-		if (params.containsKey("pageSize")) {
-			params.put("limit", params.get("pageSize"));
+
+		if (orders.isEmpty()) {
+			orders.add(new Order(Sort.Direction.ASC, "id"));
 		}
-	}
 
-	public int getTotal() {
-		return total;
+		return orders;
 	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	public int getTotalPage() {
-		return totalPage;
-	}
-
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-
-	public int getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(int current) {
-		this.current = current;
-	}
-
-	public List<?> getList() {
-		return list;
-	}
-
-	public void setList(List<?> list) {
-		this.list = list;
-	}
-	
 }
