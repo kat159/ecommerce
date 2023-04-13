@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecommerce.member.dao.LoginRecordDao">
+
+    <resultMap type="com.ecommerce.member.entity.LoginRecordEntity" id="loginRecordMap">
+        <result property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="date" column="date"/>
+        <result property="ip" column="ip"/>
+        <result property="city" column="city"/>
+        <result property="device" column="device"/>
+        <result property="app" column="app"/>
+    </resultMap>
+
+
+</mapper>

@@ -1,7 +1,6 @@
 package com.ecommerce.product.repository;
 
 import com.ecommerce.product.entity.StockDeductionOfUnconfirmedOrder;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        import-check:
+          enabled: false
+    gateway:
+      routes:
+        - id: product_route
+          uri: lb://ecommerce-product-service
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: backtest_route
+          uri: lb://backtest-service
+          predicates:
+            - Path=/api/backtest/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: member_route
+          uri: lb://ecommerce-member-service
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: promotion_route
+          uri: lb://ecommerce-order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: country_route
+          uri: lb://country-service
+          predicates:
+            - Path=/api/country/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: security_route
+          uri: lb://common-security-service
+          predicates:
+            - Path=/api/security/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /${segment}
+
+        - id: default_map_back_to_frontend
+          #          uri: http://localhost:8000/${segment}
+          uri: https://www.google.com
+          predicates:
+            - Path=/**
+
+server:
+  port: 88

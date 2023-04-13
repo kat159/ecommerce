@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.common.country.dao.StatesDao">
+
+    <resultMap type="com.common.country.entity.StatesEntity" id="statesMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="countryId" column="country_id"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="fipsCode" column="fips_code"/>
+        <result property="iso2" column="iso2"/>
+        <result property="type" column="type"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="flag" column="flag"/>
+        <result property="wikidataid" column="wikiDataId"/>
+    </resultMap>
+
+
+</mapper>

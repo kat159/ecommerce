@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.common.country.dao.CountriesDao">
+
+    <resultMap type="com.common.country.entity.CountriesEntity" id="countriesMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="iso3" column="iso3"/>
+        <result property="numericCode" column="numeric_code"/>
+        <result property="iso2" column="iso2"/>
+        <result property="phonecode" column="phonecode"/>
+        <result property="capital" column="capital"/>
+        <result property="currency" column="currency"/>
+        <result property="currencyName" column="currency_name"/>
+        <result property="currencySymbol" column="currency_symbol"/>
+        <result property="tld" column="tld"/>
+        <result property="native" column="native"/>
+        <result property="region" column="region"/>
+        <result property="subregion" column="subregion"/>
+        <result property="timezones" column="timezones"/>
+        <result property="translations" column="translations"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="emoji" column="emoji"/>
+        <result property="emojiu" column="emojiU"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="flag" column="flag"/>
+        <result property="wikidataid" column="wikiDataId"/>
+    </resultMap>
+
+
+</mapper>
